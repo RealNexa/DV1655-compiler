@@ -1,0 +1,95 @@
+digraph {
+n0 [label="GOAL:"];
+n1 [label="MAIN_CLASS:"];
+n2 [label="ID:InvalidMethodCall"];
+n1 -> n2
+n3 [label="ID:a"];
+n1 -> n3
+n4 [label="PRINTLN:"];
+n5 [label="DOTIDExpression:"];
+n6 [label="NEW_OBJECT:"];
+n7 [label="ID:MyClass"];
+n6 -> n7
+n5 -> n6
+n8 [label="MethodCall_EMPTY:"];
+n5 -> n8
+n4 -> n5
+n1 -> n4
+n9 [label="STATEMENT_EMPTY:"];
+n1 -> n9
+n0 -> n1
+n10 [label="CLASS_DECLARATION_NONEMPTY:"];
+n11 [label="CLASS_DECLARATION:"];
+n12 [label="ID:MyClass"];
+n11 -> n12
+n13 [label="VAR_DECLARATION_EMPTY:"];
+n11 -> n13
+n14 [label="METHOD_DECLARATION_NONEMPTY:"];
+n15 [label="METHOD_DECLARATION:"];
+n16 [label="TYPE_BOOLEAN:"];
+n15 -> n16
+n17 [label="ID:Init"];
+n15 -> n17
+n18 [label="TYPE_IDENTIFIERS_EMPTY:"];
+n15 -> n18
+n19 [label="VAR_DECLARATION_NONEMPTY:"];
+n20 [label="TYPEID;:"];
+n21 [label="TYPE_INT:"];
+n20 -> n21
+n22 [label="ID:test"];
+n20 -> n22
+n19 -> n20
+n23 [label="STATEMENT_NOEMPTY:"];
+n24 [label="IDASSIGN:"];
+n25 [label="ID:test"];
+n24 -> n25
+n26 [label="DOTIDExpression:"];
+n27 [label="THIS:"];
+n26 -> n27
+n28 [label="MethodCall_1_NONEMPTY:"];
+n29 [label="ID:a"];
+n28 -> n29
+n30 [label="MethodCall_NONEMPTY:"];
+n31 [label="Int:2"];
+n30 -> n31
+n28 -> n30
+n26 -> n28
+n24 -> n26
+n23 -> n24
+n32 [label="VAR_DECLARATION_OR_STATEMENT_EMPTY:"];
+n23 -> n32
+n19 -> n23
+n15 -> n19
+n33 [label="FALSE:"];
+n15 -> n33
+n14 -> n15
+n34 [label="METHOD_DECLARATION_NONEMPTY:"];
+n35 [label="METHOD_DECLARATION:"];
+n36 [label="TYPE_INT:"];
+n35 -> n36
+n37 [label="ID:Bar"];
+n35 -> n37
+n38 [label="TYPE_IDENTIFIERS_NONEMPTY:"];
+n39 [label="TYPE_INT:"];
+n38 -> n39
+n40 [label="ID:a"];
+n38 -> n40
+n41 [label="TYPE_IDENTIFIERS_NONEMPTY:"];
+n42 [label="TYPE_BOOLEAN:"];
+n41 -> n42
+n43 [label="ID:b"];
+n41 -> n43
+n38 -> n41
+n35 -> n38
+n44 [label="VAR_DECLARATION_OR_STATEMENT_EMPTY:"];
+n35 -> n44
+n45 [label="Int:1"];
+n35 -> n45
+n34 -> n35
+n46 [label="METHOD_DECLARATION_EMPTY:"];
+n34 -> n46
+n14 -> n34
+n11 -> n14
+n10 -> n11
+n0 -> n10
+}

@@ -1,0 +1,135 @@
+digraph {
+n0 [label="GOAL:"];
+n1 [label="MAIN_CLASS:"];
+n2 [label="ID:DanglingElse"];
+n1 -> n2
+n3 [label="ID:a"];
+n1 -> n3
+n4 [label="PRINTLN:"];
+n5 [label="DOTIDExpression:"];
+n6 [label="NEW_OBJECT:"];
+n7 [label="ID:AST"];
+n6 -> n7
+n5 -> n6
+n8 [label="MethodCall1_EMPTY:"];
+n5 -> n8
+n4 -> n5
+n1 -> n4
+n9 [label="STATEMENT_EMPTY:"];
+n1 -> n9
+n0 -> n1
+n10 [label="CLASS_DECLARATION_NONEMPTY:"];
+n11 [label="CLASS_DECLARATION:"];
+n12 [label="ID:AST"];
+n11 -> n12
+n13 [label="VAR_DECLARATION_EMPTY:"];
+n11 -> n13
+n14 [label="METHOD_DECLARATION_NONEMPTY:"];
+n15 [label="METHOD_DECLARATION:"];
+n16 [label="TYPE_INT:"];
+n15 -> n16
+n17 [label="ID:TestIfElse"];
+n15 -> n17
+n18 [label="TYPE_IDENTIFIERS_EMPTY:"];
+n15 -> n18
+n19 [label="VAR_DECLARATION_NONEMPTY:"];
+n20 [label="TYPEID;:"];
+n21 [label="TYPE_BOOLEAN:"];
+n20 -> n21
+n22 [label="ID:A"];
+n20 -> n22
+n19 -> n20
+n23 [label="VAR_DECLARATION_NONEMPTY:"];
+n24 [label="TYPEID;:"];
+n25 [label="TYPE_BOOLEAN:"];
+n24 -> n25
+n26 [label="ID:B"];
+n24 -> n26
+n23 -> n24
+n27 [label="STATEMENT_NOEMPTY:"];
+n28 [label="IDASSIGN:"];
+n29 [label="ID:A"];
+n28 -> n29
+n30 [label="FALSE:"];
+n28 -> n30
+n27 -> n28
+n31 [label="STATEMENT_NOEMPTY:"];
+n32 [label="IDASSIGN:"];
+n33 [label="ID:B"];
+n32 -> n33
+n34 [label="TRUE:"];
+n32 -> n34
+n31 -> n32
+n35 [label="STATEMENT_NOEMPTY:"];
+n36 [label="IF:"];
+n37 [label="ID:A"];
+n36 -> n37
+n38 [label="IF:"];
+n39 [label="ID:B"];
+n38 -> n39
+n40 [label="IDASSIGN:"];
+n41 [label="ID:B"];
+n40 -> n41
+n42 [label="TRUE:"];
+n40 -> n42
+n38 -> n40
+n43 [label="ELSE:"];
+n44 [label="IDASSIGN:"];
+n45 [label="ID:B"];
+n44 -> n45
+n46 [label="FALSE:"];
+n44 -> n46
+n43 -> n44
+n38 -> n43
+n36 -> n38
+n47 [label="NO_ELSE:"];
+n36 -> n47
+n35 -> n36
+n48 [label="STATEMENT_NOEMPTY:"];
+n49 [label="IF:"];
+n50 [label="ID:A"];
+n49 -> n50
+n51 [label="FUNCTION_BODY:"];
+n52 [label="STATEMENT_NONEMPTY:"];
+n53 [label="IF:"];
+n54 [label="ID:B"];
+n53 -> n54
+n55 [label="IDASSIGN:"];
+n56 [label="ID:B"];
+n55 -> n56
+n57 [label="TRUE:"];
+n55 -> n57
+n53 -> n55
+n58 [label="ELSE:"];
+n59 [label="IDASSIGN:"];
+n60 [label="ID:A"];
+n59 -> n60
+n61 [label="FALSE:"];
+n59 -> n61
+n58 -> n59
+n53 -> n58
+n52 -> n53
+n62 [label="STATEMENT_EMPTY:"];
+n52 -> n62
+n51 -> n52
+n49 -> n51
+n63 [label="NO_ELSE:"];
+n49 -> n63
+n48 -> n49
+n64 [label="VAR_DECLARATION_OR_STATEMENT_EMPTY:"];
+n48 -> n64
+n35 -> n48
+n31 -> n35
+n27 -> n31
+n23 -> n27
+n19 -> n23
+n15 -> n19
+n65 [label="Int:1"];
+n15 -> n65
+n14 -> n15
+n66 [label="METHOD_DECLARATION_EMPTY:"];
+n14 -> n66
+n11 -> n14
+n10 -> n11
+n0 -> n10
+}
