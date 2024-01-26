@@ -392,8 +392,10 @@ namespace yy {
       // n_method_declarations
       // method_declaration
       // n_type_identifiers
+      // type_identifier
       // n_var_declarations_or_statements
       // type
+      // one_or_more_statements
       // statement
       // else_case
       // n_statements
@@ -600,16 +602,18 @@ namespace yy {
         S_n_method_declarations = 51,            // n_method_declarations
         S_method_declaration = 52,               // method_declaration
         S_n_type_identifiers = 53,               // n_type_identifiers
-        S_n_var_declarations_or_statements = 54, // n_var_declarations_or_statements
-        S_type = 55,                             // type
-        S_statement = 56,                        // statement
-        S_else_case = 57,                        // else_case
-        S_n_statements = 58,                     // n_statements
-        S_expression = 59,                       // expression
-        S_method_call1 = 60,                     // method_call1
-        S_method_call2 = 61,                     // method_call2
-        S_factor = 62,                           // factor
-        S_identifier = 63                        // identifier
+        S_type_identifier = 54,                  // type_identifier
+        S_n_var_declarations_or_statements = 55, // n_var_declarations_or_statements
+        S_type = 56,                             // type
+        S_one_or_more_statements = 57,           // one_or_more_statements
+        S_statement = 58,                        // statement
+        S_else_case = 59,                        // else_case
+        S_n_statements = 60,                     // n_statements
+        S_expression = 61,                       // expression
+        S_method_call1 = 62,                     // method_call1
+        S_method_call2 = 63,                     // method_call2
+        S_factor = 64,                           // factor
+        S_identifier = 65                        // identifier
       };
     };
 
@@ -654,8 +658,10 @@ namespace yy {
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
+      case symbol_kind::S_one_or_more_statements: // one_or_more_statements
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_else_case: // else_case
       case symbol_kind::S_n_statements: // n_statements
@@ -789,8 +795,10 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
+      case symbol_kind::S_one_or_more_statements: // one_or_more_statements
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_else_case: // else_case
       case symbol_kind::S_n_statements: // n_statements
@@ -1714,7 +1722,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const short yypgoto_[];
+    static const signed char yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const unsigned char yydefgoto_[];
@@ -1722,7 +1730,7 @@ switch (yykind)
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const unsigned char yytable_[];
+    static const short yytable_[];
 
     static const short yycheck_[];
 
@@ -1966,8 +1974,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 407,     ///< Last index in yytable_.
-      yynnts_ = 21,  ///< Number of nonterminal symbols.
+      yylast_ = 379,     ///< Last index in yytable_.
+      yynnts_ = 23,  ///< Number of nonterminal symbols.
       yyfinal_ = 6 ///< Termination state number.
     };
 
@@ -2045,8 +2053,10 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
+      case symbol_kind::S_one_or_more_statements: // one_or_more_statements
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_else_case: // else_case
       case symbol_kind::S_n_statements: // n_statements
@@ -2142,8 +2152,10 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
+      case symbol_kind::S_one_or_more_statements: // one_or_more_statements
       case symbol_kind::S_statement: // statement
       case symbol_kind::S_else_case: // else_case
       case symbol_kind::S_n_statements: // n_statements
@@ -2263,7 +2275,7 @@ switch (yykind)
 
 
 } // yy
-#line 2267 "parser.tab.hh"
+#line 2279 "parser.tab.hh"
 
 
 

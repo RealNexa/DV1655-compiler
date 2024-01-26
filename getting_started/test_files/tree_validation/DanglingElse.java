@@ -17,12 +17,16 @@ class AST {
                 B = true;
             else
                 B = false;
+        
+        C = 1; // ADDED FOR DEMONSTRATION OF SCOPE
 
         if (A) {
             if (B)
                 B = true;
             else
                 A = false;
+
+            C = 1; // ADDED FOR DEMONSTRATION OF SCOPE
         }
 
         return 1;
