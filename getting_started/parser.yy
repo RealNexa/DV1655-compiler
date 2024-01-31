@@ -33,7 +33,7 @@
 %left MULTOP DIVOP
 %right NEW
 %right NOT
-%left DOT LP RP LB RB
+%left DOT LB RB
 
 
 // definition of the production rules. All production rules are of type Node
@@ -59,14 +59,14 @@ main_class: PUBLIC CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB 
 }
 ;
 
-
 n_class_declarations: %empty {
                    $$ = new Node("NON_MAIN_CLASSES", "", yylineno);
                 }
             | n_class_declarations class_declaration{
               $$ = $1;
               $$->children.push_back($2);
-            };
+            }
+;
 
 class_declaration: CLASS identifier LCB n_var_declarations n_method_declarations RCB {
                 $$ = new Node("CLASS_DECLARATION", "", yylineno);
