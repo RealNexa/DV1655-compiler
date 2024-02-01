@@ -392,6 +392,7 @@ namespace yy {
       // n_method_declarations
       // method_declaration
       // n_type_identifiers
+      // n2_type_identifiers
       // type_identifier
       // n_var_declarations_or_statements
       // type
@@ -602,18 +603,19 @@ namespace yy {
         S_n_method_declarations = 51,            // n_method_declarations
         S_method_declaration = 52,               // method_declaration
         S_n_type_identifiers = 53,               // n_type_identifiers
-        S_type_identifier = 54,                  // type_identifier
-        S_n_var_declarations_or_statements = 55, // n_var_declarations_or_statements
-        S_type = 56,                             // type
-        S_one_or_more_statements = 57,           // one_or_more_statements
-        S_statement = 58,                        // statement
-        S_else_case = 59,                        // else_case
-        S_n_statements = 60,                     // n_statements
-        S_expression = 61,                       // expression
-        S_method_call1 = 62,                     // method_call1
-        S_method_call2 = 63,                     // method_call2
-        S_factor = 64,                           // factor
-        S_identifier = 65                        // identifier
+        S_n2_type_identifiers = 54,              // n2_type_identifiers
+        S_type_identifier = 55,                  // type_identifier
+        S_n_var_declarations_or_statements = 56, // n_var_declarations_or_statements
+        S_type = 57,                             // type
+        S_one_or_more_statements = 58,           // one_or_more_statements
+        S_statement = 59,                        // statement
+        S_else_case = 60,                        // else_case
+        S_n_statements = 61,                     // n_statements
+        S_expression = 62,                       // expression
+        S_method_call1 = 63,                     // method_call1
+        S_method_call2 = 64,                     // method_call2
+        S_factor = 65,                           // factor
+        S_identifier = 66                        // identifier
       };
     };
 
@@ -658,6 +660,7 @@ namespace yy {
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_n2_type_identifiers: // n2_type_identifiers
       case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
@@ -795,6 +798,7 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_n2_type_identifiers: // n2_type_identifiers
       case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
@@ -1722,7 +1726,7 @@ switch (yykind)
     static const signed char yydefact_[];
 
     // YYPGOTO[NTERM-NUM].
-    static const signed char yypgoto_[];
+    static const short yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
     static const unsigned char yydefgoto_[];
@@ -1974,8 +1978,8 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 379,     ///< Last index in yytable_.
-      yynnts_ = 23,  ///< Number of nonterminal symbols.
+      yylast_ = 392,     ///< Last index in yytable_.
+      yynnts_ = 24,  ///< Number of nonterminal symbols.
       yyfinal_ = 6 ///< Termination state number.
     };
 
@@ -2053,6 +2057,7 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_n2_type_identifiers: // n2_type_identifiers
       case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
@@ -2152,6 +2157,7 @@ switch (yykind)
       case symbol_kind::S_n_method_declarations: // n_method_declarations
       case symbol_kind::S_method_declaration: // method_declaration
       case symbol_kind::S_n_type_identifiers: // n_type_identifiers
+      case symbol_kind::S_n2_type_identifiers: // n2_type_identifiers
       case symbol_kind::S_type_identifier: // type_identifier
       case symbol_kind::S_n_var_declarations_or_statements: // n_var_declarations_or_statements
       case symbol_kind::S_type: // type
@@ -2275,7 +2281,7 @@ switch (yykind)
 
 
 } // yy
-#line 2279 "parser.tab.hh"
+#line 2285 "parser.tab.hh"
 
 
 

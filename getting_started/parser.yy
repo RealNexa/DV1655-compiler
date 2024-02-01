@@ -37,7 +37,7 @@
 
 
 // definition of the production rules. All production rules are of type Node
-%type <Node *> root expression factor method_call1 method_call2 identifier n_statements statement goal main_class n_class_declarations class_declaration else_case type n_var_declarations var_declaration n_method_declarations method_declaration n_type_identifiers n_var_declarations_or_statements type_identifier one_or_more_statements
+%type <Node *> root expression factor method_call1 method_call2 identifier n_statements statement goal main_class n_class_declarations class_declaration else_case type n_var_declarations var_declaration n_method_declarations method_declaration n_type_identifiers n_var_declarations_or_statements type_identifier one_or_more_statements n2_type_identifiers
 
 %%
 root:       goal {root = $1;};
@@ -114,13 +114,22 @@ n_type_identifiers: %empty {
             | type_identifier {
               $$ = new Node("PARAMETERS", "", yylineno);
               $$->children.push_back($1);
-
             }
-            | type_identifier COMMA n_type_identifiers {
+            | type_identifier COMMA n2_type_identifiers {
                           $$ = $3;
                           $$->children.push_back($1);
                           }
             ;
+
+n2_type_identifiers: type_identifier {
+            $$ = new Node("PARAMETERS", "", yylineno);
+            $$->children.push_back($1);
+}
+| type_identifier COMMA n2_type_identifiers {
+            $$ = $3;
+            $$->children.push_back($1);
+}
+;
 
 type_identifier: type identifier {
     $$ = new Node("PARAMETER", "", yylineno);
