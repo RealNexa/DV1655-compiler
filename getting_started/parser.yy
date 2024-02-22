@@ -161,8 +161,8 @@ type: TYPE_INT LB RB {
         $$ = new Node("TYPE_INT", "", yylineno);
       }
       | identifier {
-        $$ = new Node("TYPE_CUSTOM", "", yylineno);
-        $$->children.push_back($1);
+        $$ = new Node("TYPE_CUSTOM", $1->value, yylineno);
+        //$$->children.push_back($1);
       }
       ;
 
