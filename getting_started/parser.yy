@@ -14,7 +14,7 @@
   #define YY_DECL yy::parser::symbol_type yylex()
   YY_DECL;
   
-  Node* root;
+  BaseNode* root;
   extern int yylineno;
 }
 
@@ -37,21 +37,22 @@
 
 
 // definition of the production rules. All production rules are of type Node
-%type <Node *> root expression factor method_call1 method_call2 identifier n_statements statement goal main_class n_class_declarations class_declaration else_case type n_var_declarations var_declaration n_method_declarations method_declaration n_type_identifiers n_var_declarations_or_statements type_identifier one_or_more_statements n2_type_identifiers
+%type <BaseNode *> root
+%type <BaseNode *> expression factor method_call1 method_call2 identifier n_statements statement goal main_class n_class_declarations class_declaration else_case type n_var_declarations var_declaration n_method_declarations method_declaration n_type_identifiers n_var_declarations_or_statements type_identifier one_or_more_statements n2_type_identifiers
 
 %%
 root:       goal {root = $1;};
 
 
 goal:  main_class n_class_declarations END {
-                          $$ = new Node("GOAL", "", yylineno);
+                          $$ = new GoalNode("GOAL", "", yylineno);
                           $$->children.push_back($1);
                           $$->children.push_back($2);
                           }
                           ;
 
 main_class: PUBLIC CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB identifier RP LCB one_or_more_statements RCB RCB {
-  $$ = new Node("MAIN_CLASS", "", yylineno);
+  $$ = new MainClassNode("MAIN_CLASS", "", yylineno);
   $$->children.push_back($3);
   $$->children.push_back($13);
   $$->children.push_back($16);
@@ -60,7 +61,7 @@ main_class: PUBLIC CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB 
 ;
 
 n_class_declarations: %empty {
-                   $$ = new Node("NON_MAIN_CLASSES", "", yylineno);
+                   $$ = new NonMainClassNode("NON_MAIN_CLASSES", "", yylineno);
                 }
             | n_class_declarations class_declaration{
               $$ = $1;
@@ -69,7 +70,7 @@ n_class_declarations: %empty {
 ;
 
 class_declaration: CLASS identifier LCB n_var_declarations n_method_declarations RCB {
-                $$ = new Node("CLASS_DECLARATION", "", yylineno);
+                $$ = new ClassDeclarationNode("CLASS_DECLARATION", "", yylineno);
                 $$->children.push_back($2);
                 $$->children.push_back($4);
                 $$->children.push_back($5);
@@ -77,7 +78,7 @@ class_declaration: CLASS identifier LCB n_var_declarations n_method_declarations
 ;
 
 n_var_declarations: %empty {
-                  $$ = new Node("VAR_DECLARATIONS", "", yylineno);
+                  $$ = new VarDeclarationsNode("VAR_DECLARATIONS", "", yylineno);
                 }
             | n_var_declarations var_declaration  {
               $$ = $1;
@@ -85,14 +86,14 @@ n_var_declarations: %empty {
             };
 
 var_declaration: type identifier SC {
-                  $$ = new Node("TYPEID", "", yylineno);
+                  $$ = new TypeIdNode("TYPEID", "", yylineno);
                   $$->children.push_back($1);
                   $$->children.push_back($2);
                 }
                 ;
 
 n_method_declarations: %empty {
-                  $$ = new Node("METHOD_DECLARATIONS", "", yylineno);
+                  $$ = new MethodDeclarationsNode("METHOD_DECLARATIONS", "", yylineno);
                 }
             | n_method_declarations method_declaration {
               $$ = $1;
@@ -100,7 +101,7 @@ n_method_declarations: %empty {
             };
 
 method_declaration: PUBLIC type identifier LP n_type_identifiers RP LCB n_var_declarations_or_statements RETURN expression SC RCB {
-        $$ = new Node("METHOD_DECLARATION", "", yylineno);
+        $$ = new MethodDeclarationNode("METHOD_DECLARATION", "", yylineno);
         $$->children.push_back($2);
         $$->children.push_back($3);
         $$->children.push_back($5);
@@ -109,10 +110,10 @@ method_declaration: PUBLIC type identifier LP n_type_identifiers RP LCB n_var_de
       };
 
 n_type_identifiers: %empty {
-                  $$ = new Node("PARAMETERS", "", yylineno);
+                  $$ = new ParametersNode("PARAMETERS", "", yylineno);
                 }
             | type_identifier {
-              $$ = new Node("PARAMETERS", "", yylineno);
+              $$ = new ParametersNode("PARAMETERS", "", yylineno);
               $$->children.push_back($1);
             }
             | type_identifier COMMA n2_type_identifiers {
@@ -122,7 +123,7 @@ n_type_identifiers: %empty {
             ;
 
 n2_type_identifiers: type_identifier {
-            $$ = new Node("PARAMETERS", "", yylineno);
+            $$ = new ParametersNode("PARAMETERS", "", yylineno);
             $$->children.push_back($1);
 }
 | type_identifier COMMA n2_type_identifiers {
@@ -132,14 +133,14 @@ n2_type_identifiers: type_identifier {
 ;
 
 type_identifier: type identifier {
-    $$ = new Node("PARAMETER", "", yylineno);
+    $$ = new ParameterNode("PARAMETER", "", yylineno);
     $$->children.push_back($1);
     $$->children.push_back($2);
   }
 ;
 
 n_var_declarations_or_statements: %empty {
-                  $$ = new Node("BODY", "", yylineno);
+                  $$ = new BodyNode("BODY", "", yylineno);
                 }
                 | n_var_declarations_or_statements var_declaration{
                   $$ = $1;
@@ -152,16 +153,16 @@ n_var_declarations_or_statements: %empty {
       ;
 
 type: TYPE_INT LB RB {
-        $$ = new Node("TYPE_INT_LIST", "", yylineno);
+        $$ = new TypeIntListNode("TYPE_INT_LIST", "", yylineno);
       }
       | TYPE_BOOLEAN {
-        $$ = new Node("TYPE_BOOLEAN", "", yylineno);
+        $$ = new TypeBooleanNode("TYPE_BOOLEAN", "", yylineno);
       }
       | TYPE_INT {
-        $$ = new Node("TYPE_INT", "", yylineno);
+        $$ = new TypeIntNode("TYPE_INT", "", yylineno);
       }
       | identifier {
-        $$ = new Node("TYPE_CUSTOM", $1->value, yylineno);
+        $$ = new TypeCustomNode("TYPE_CUSTOM", $1->value, yylineno);
         //$$->children.push_back($1);
       }
       ;
@@ -176,27 +177,27 @@ statement: LCB n_statements RCB {
                 $$ = $2;
                 }
           | IF LP expression RP statement else_case {
-                  $$ = new Node("IF", "", yylineno);
+                  $$ = new IfNode("IF", "", yylineno);
                   $$->children.push_back($3);
                   $$->children.push_back($5);
                   $$->children.push_back($6);
                 } 
           | WHILE LP expression RP statement {
-                  $$ = new Node("WHILE", "", yylineno);
+                  $$ = new WhileNode("WHILE", "", yylineno);
                   $$->children.push_back($3);
                   $$->children.push_back($5);
                 }
           | PRINTLN LP expression RP SC {
-                  $$ = new Node("PRINTLN", "", yylineno);
+                  $$ = new PrintLnNode("PRINTLN", "", yylineno);
                   $$->children.push_back($3);
                 }
           | identifier ASSIGN expression SC{
-                  $$ = new Node("IDASSIGN", "", yylineno);
+                  $$ = new IdAssignNode("IDASSIGN", "", yylineno);
                   $$->children.push_back($1);
                   $$->children.push_back($3);
           }
           | identifier LB expression RB ASSIGN expression SC {
-                  $$ = new Node("LISTASSIGN", "", yylineno);
+                  $$ = new ListAssignNode("LISTASSIGN", "", yylineno);
                   $$->children.push_back($1);
                   $$->children.push_back($3);
                   $$->children.push_back($6);
@@ -204,16 +205,16 @@ statement: LCB n_statements RCB {
           ;
 
 else_case: %empty {
-              $$ = new Node("NO_ELSE", "", yylineno);
+              $$ = new NoElseNode("NO_ELSE", "", yylineno);
             }
           | ELSE statement {
-              $$ = new Node("ELSE", "", yylineno);
+              $$ = new ElseNode("ELSE", "", yylineno);
               $$->children.push_back($2);
             }
           ;
 
 n_statements: %empty {
-                $$ = new Node("SCOPE", "", yylineno);
+                $$ = new ScopeNode("SCOPE", "", yylineno);
               }
             | n_statements statement {
                 $$ = $1;
@@ -226,101 +227,101 @@ expression: expression PLUSOP expression {      /*
                                                   The root of the subtree is AddExpression
                                                   The children of the AddExpression subtree are the left hand side (expression accessed through $1) and right hand side of the expression (expression accessed through $3)
                                                 */
-                            $$ = new Node("AddExpression", "", yylineno);
+                            $$ = new AddExpressionNode("AddExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r1 "); */
                           }
             | expression MINUSOP expression {
-                            $$ = new Node("SubExpression", "", yylineno);
+                            $$ = new SubExpressionNode("SubExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r2 "); */
                           }
             | expression MULTOP expression {
-                            $$ = new Node("MultExpression", "", yylineno);
+                            $$ = new MultExpressionNode("MultExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r3 "); */
                           }
             | expression DIVOP expression {
-                            $$ = new Node("DIVOPExpression", "", yylineno);
+                            $$ = new DivExpressionNode("DIVOPExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression LOGICAND expression {
-                            $$ = new Node("LOGICANDExpression", "", yylineno);
+                            $$ = new LogicAndExpressionNode("LOGICANDExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression LOGICOR expression {
-                            $$ = new Node("LOGICORExpression", "", yylineno);
+                            $$ = new LogicOrExpressionNode("LOGICORExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression LT expression {
-                            $$ = new Node("LTExpression", "", yylineno);
+                            $$ = new LtExpressionNode("LTExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression GT expression {
-                            $$ = new Node("GTExpression", "", yylineno);
+                            $$ = new GtExpressionNode("GTExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression EQUAL expression {
-                            $$ = new Node("EQUALExpression", "", yylineno);
+                            $$ = new EqualExpressionNode("EQUALExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression LB expression RB {
-                            $$ = new Node("LBRBExpression", "", yylineno);
+                            $$ = new LBRBExpressionNode("LBRBExpression", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             /* printf("r4 "); */
                           }
             | expression DOT LENGTH {
-                            $$ = new Node("DOTLENGTHExpression", "", yylineno);
+                            $$ = new DotLengthExpressionNode("DOTLENGTHExpression", "", yylineno);
                             $$->children.push_back($1);
                             /* printf("r4 "); */
                           }
             | expression DOT identifier LP method_call1 RP {
-                            $$ = new Node("METHOD_CALL", "", yylineno);
+                            $$ = new MethodCallNode("METHOD_CALL", "", yylineno);
                             $$->children.push_back($1);
                             $$->children.push_back($3);
                             $$->children.push_back($5);
                             /* printf("r4 "); */
                           }
             | factor      {$$ = $1; /* printf("r5 ");*/}
-            | TRUE {$$ = new Node("TRUE", "", yylineno);}
-            | FALSE {$$ = new Node("FALSE", "", yylineno);}
+            | TRUE {$$ = new TrueNode("TRUE", "", yylineno);}
+            | FALSE {$$ = new FalseNode("FALSE", "", yylineno);}
             | identifier {$$ = $1;}
-            | THIS {$$ = new Node("THIS", "", yylineno);}
+            | THIS {$$ = new ThisNode("THIS", "", yylineno);}
             | NEW TYPE_INT LB expression RB {
-                            $$ = new Node("NEW_LIST", "", yylineno);
+                            $$ = new NewListNode("NEW_LIST", "", yylineno);
                             $$->children.push_back($4);
                           }
             | NEW identifier LP RP {
-                            $$ = new Node("NEW_OBJECT", "", yylineno);
+                            $$ = new NewObjectNode("NEW_OBJECT", "", yylineno);
                             $$->children.push_back($2);
                             }
             | NOT expression {
-                            $$ = new Node("NOT", "", yylineno);
+                            $$ = new NotNode("NOT", "", yylineno);
                             $$->children.push_back($2);
                           }
             ;
 
 method_call1: %empty {
-                  $$ = new Node("NO_ARGUMENTS", "", yylineno);
+                  $$ = new NoArgumentsNode("NO_ARGUMENTS", "", yylineno);
                 }
             | expression {
-              $$ = new Node("ARGUMENS", "", yylineno);
+              $$ = new ArgumentsNode("ARGUMENTS", "", yylineno);
               $$->children.push_back($1);
             }
             | expression COMMA method_call2 {
@@ -330,7 +331,7 @@ method_call1: %empty {
             ;
 
 method_call2: expression {
-              $$ = new Node("ARGUMENTS", "", yylineno);
+              $$ = new ArgumentsNode("ARGUMENTS", "", yylineno);
               $$->children.push_back($1);
             }
             | expression COMMA method_call2 {
@@ -339,8 +340,8 @@ method_call2: expression {
                           }
             ;
             
-factor:     INT           {  $$ = new Node("Int", $1, yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
+factor:     INT           {  $$ = new IntNode("Int", $1, yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
             | LP expression RP { $$ = $2; /* printf("r6 ");  simply return the expression */}
     ;
 
-identifier: ID { $$ = new Node("ID", $1, yylineno);};
+identifier: ID { $$ = new IdNode("ID", $1, yylineno);};

@@ -47,7 +47,7 @@
   #define YY_DECL yy::parser::symbol_type yylex()
   YY_DECL;
   
-  Node* root;
+  BaseNode* root;
   extern int yylineno;
 
 #line 54 "parser.tab.cc"
@@ -213,7 +213,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.YY_MOVE_OR_COPY< Node * > (YY_MOVE (that.value));
+        value.YY_MOVE_OR_COPY< BaseNode * > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -297,7 +297,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.move< Node * > (YY_MOVE (that.value));
+        value.move< BaseNode * > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -381,7 +381,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.copy< Node * > (that.value);
+        value.copy< BaseNode * > (that.value);
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -463,7 +463,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.move< Node * > (that.value);
+        value.move< BaseNode * > (that.value);
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -786,7 +786,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        yylhs.value.emplace< Node * > ();
+        yylhs.value.emplace< BaseNode * > ();
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -847,585 +847,585 @@ namespace yy {
           switch (yyn)
             {
   case 2: // root: goal
-#line 43 "parser.yy"
-                 {root = yystack_[0].value.as < Node * > ();}
+#line 44 "parser.yy"
+                 {root = yystack_[0].value.as < BaseNode * > ();}
 #line 853 "parser.tab.cc"
     break;
 
   case 3: // goal: main_class n_class_declarations "end of file"
-#line 46 "parser.yy"
+#line 47 "parser.yy"
                                            {
-                          yylhs.value.as < Node * > () = new Node("GOAL", "", yylineno);
-                          yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                          yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                          yylhs.value.as < BaseNode * > () = new GoalNode("GOAL", "", yylineno);
+                          yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                          yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
                           }
 #line 863 "parser.tab.cc"
     break;
 
   case 4: // main_class: PUBLIC CLASS identifier LCB PUBLIC STATIC VOID MAIN LP STRING LB RB identifier RP LCB one_or_more_statements RCB RCB
-#line 53 "parser.yy"
+#line 54 "parser.yy"
                                                                                                                                  {
-  yylhs.value.as < Node * > () = new Node("MAIN_CLASS", "", yylineno);
-  yylhs.value.as < Node * > ()->children.push_back(yystack_[15].value.as < Node * > ());
-  yylhs.value.as < Node * > ()->children.push_back(yystack_[5].value.as < Node * > ());
-  yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+  yylhs.value.as < BaseNode * > () = new MainClassNode("MAIN_CLASS", "", yylineno);
+  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[15].value.as < BaseNode * > ());
+  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[5].value.as < BaseNode * > ());
+  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
   /*$$->children.push_back($17);*/
 }
 #line 875 "parser.tab.cc"
     break;
 
   case 5: // n_class_declarations: %empty
-#line 62 "parser.yy"
+#line 63 "parser.yy"
                              {
-                   yylhs.value.as < Node * > () = new Node("NON_MAIN_CLASSES", "", yylineno);
+                   yylhs.value.as < BaseNode * > () = new NonMainClassNode("NON_MAIN_CLASSES", "", yylineno);
                 }
 #line 883 "parser.tab.cc"
     break;
 
   case 6: // n_class_declarations: n_class_declarations class_declaration
-#line 65 "parser.yy"
+#line 66 "parser.yy"
                                                     {
-              yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 892 "parser.tab.cc"
     break;
 
   case 7: // class_declaration: CLASS identifier LCB n_var_declarations n_method_declarations RCB
-#line 71 "parser.yy"
+#line 72 "parser.yy"
                                                                                      {
-                yylhs.value.as < Node * > () = new Node("CLASS_DECLARATION", "", yylineno);
-                yylhs.value.as < Node * > ()->children.push_back(yystack_[4].value.as < Node * > ());
-                yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                yylhs.value.as < BaseNode * > () = new ClassDeclarationNode("CLASS_DECLARATION", "", yylineno);
+                yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[4].value.as < BaseNode * > ());
+                yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
 }
 #line 903 "parser.tab.cc"
     break;
 
   case 8: // n_var_declarations: %empty
-#line 79 "parser.yy"
+#line 80 "parser.yy"
                            {
-                  yylhs.value.as < Node * > () = new Node("VAR_DECLARATIONS", "", yylineno);
+                  yylhs.value.as < BaseNode * > () = new VarDeclarationsNode("VAR_DECLARATIONS", "", yylineno);
                 }
 #line 911 "parser.tab.cc"
     break;
 
   case 9: // n_var_declarations: n_var_declarations var_declaration
-#line 82 "parser.yy"
+#line 83 "parser.yy"
                                                   {
-              yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 920 "parser.tab.cc"
     break;
 
   case 10: // var_declaration: type identifier SC
-#line 87 "parser.yy"
+#line 88 "parser.yy"
                                     {
-                  yylhs.value.as < Node * > () = new Node("TYPEID", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new TypeIdNode("TYPEID", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
                 }
 #line 930 "parser.tab.cc"
     break;
 
   case 11: // n_method_declarations: %empty
-#line 94 "parser.yy"
+#line 95 "parser.yy"
                               {
-                  yylhs.value.as < Node * > () = new Node("METHOD_DECLARATIONS", "", yylineno);
+                  yylhs.value.as < BaseNode * > () = new MethodDeclarationsNode("METHOD_DECLARATIONS", "", yylineno);
                 }
 #line 938 "parser.tab.cc"
     break;
 
   case 12: // n_method_declarations: n_method_declarations method_declaration
-#line 97 "parser.yy"
+#line 98 "parser.yy"
                                                        {
-              yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 947 "parser.tab.cc"
     break;
 
   case 13: // method_declaration: PUBLIC type identifier LP n_type_identifiers RP LCB n_var_declarations_or_statements RETURN expression SC RCB
-#line 102 "parser.yy"
+#line 103 "parser.yy"
                                                                                                                                   {
-        yylhs.value.as < Node * > () = new Node("METHOD_DECLARATION", "", yylineno);
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[10].value.as < Node * > ());
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[9].value.as < Node * > ());
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[7].value.as < Node * > ());
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[4].value.as < Node * > ());
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+        yylhs.value.as < BaseNode * > () = new MethodDeclarationNode("METHOD_DECLARATION", "", yylineno);
+        yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[10].value.as < BaseNode * > ());
+        yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[9].value.as < BaseNode * > ());
+        yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[7].value.as < BaseNode * > ());
+        yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[4].value.as < BaseNode * > ());
+        yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
       }
 #line 960 "parser.tab.cc"
     break;
 
   case 14: // n_type_identifiers: %empty
-#line 111 "parser.yy"
+#line 112 "parser.yy"
                            {
-                  yylhs.value.as < Node * > () = new Node("PARAMETERS", "", yylineno);
+                  yylhs.value.as < BaseNode * > () = new ParametersNode("PARAMETERS", "", yylineno);
                 }
 #line 968 "parser.tab.cc"
     break;
 
   case 15: // n_type_identifiers: type_identifier
-#line 114 "parser.yy"
+#line 115 "parser.yy"
                               {
-              yylhs.value.as < Node * > () = new Node("PARAMETERS", "", yylineno);
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = new ParametersNode("PARAMETERS", "", yylineno);
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 977 "parser.tab.cc"
     break;
 
   case 16: // n_type_identifiers: type_identifier COMMA n2_type_identifiers
-#line 118 "parser.yy"
+#line 119 "parser.yy"
                                                         {
-                          yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > ();
-                          yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                          yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > ();
+                          yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                           }
 #line 986 "parser.tab.cc"
     break;
 
   case 17: // n2_type_identifiers: type_identifier
-#line 124 "parser.yy"
+#line 125 "parser.yy"
                                      {
-            yylhs.value.as < Node * > () = new Node("PARAMETERS", "", yylineno);
-            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+            yylhs.value.as < BaseNode * > () = new ParametersNode("PARAMETERS", "", yylineno);
+            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
 }
 #line 995 "parser.tab.cc"
     break;
 
   case 18: // n2_type_identifiers: type_identifier COMMA n2_type_identifiers
-#line 128 "parser.yy"
+#line 129 "parser.yy"
                                             {
-            yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > ();
-            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+            yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > ();
+            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
 }
 #line 1004 "parser.tab.cc"
     break;
 
   case 19: // type_identifier: type identifier
-#line 134 "parser.yy"
+#line 135 "parser.yy"
                                  {
-    yylhs.value.as < Node * > () = new Node("PARAMETER", "", yylineno);
-    yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
-    yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+    yylhs.value.as < BaseNode * > () = new ParameterNode("PARAMETER", "", yylineno);
+    yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
+    yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
   }
 #line 1014 "parser.tab.cc"
     break;
 
   case 20: // n_var_declarations_or_statements: %empty
-#line 141 "parser.yy"
+#line 142 "parser.yy"
                                          {
-                  yylhs.value.as < Node * > () = new Node("BODY", "", yylineno);
+                  yylhs.value.as < BaseNode * > () = new BodyNode("BODY", "", yylineno);
                 }
 #line 1022 "parser.tab.cc"
     break;
 
   case 21: // n_var_declarations_or_statements: n_var_declarations_or_statements var_declaration
-#line 144 "parser.yy"
+#line 145 "parser.yy"
                                                                   {
-                  yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                 }
 #line 1031 "parser.tab.cc"
     break;
 
   case 22: // n_var_declarations_or_statements: n_var_declarations_or_statements statement
-#line 148 "parser.yy"
+#line 149 "parser.yy"
                                                              {
-                  yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                 }
 #line 1040 "parser.tab.cc"
     break;
 
   case 23: // type: TYPE_INT LB RB
-#line 154 "parser.yy"
+#line 155 "parser.yy"
                      {
-        yylhs.value.as < Node * > () = new Node("TYPE_INT_LIST", "", yylineno);
+        yylhs.value.as < BaseNode * > () = new TypeIntListNode("TYPE_INT_LIST", "", yylineno);
       }
 #line 1048 "parser.tab.cc"
     break;
 
   case 24: // type: TYPE_BOOLEAN
-#line 157 "parser.yy"
+#line 158 "parser.yy"
                      {
-        yylhs.value.as < Node * > () = new Node("TYPE_BOOLEAN", "", yylineno);
+        yylhs.value.as < BaseNode * > () = new TypeBooleanNode("TYPE_BOOLEAN", "", yylineno);
       }
 #line 1056 "parser.tab.cc"
     break;
 
   case 25: // type: TYPE_INT
-#line 160 "parser.yy"
+#line 161 "parser.yy"
                  {
-        yylhs.value.as < Node * > () = new Node("TYPE_INT", "", yylineno);
+        yylhs.value.as < BaseNode * > () = new TypeIntNode("TYPE_INT", "", yylineno);
       }
 #line 1064 "parser.tab.cc"
     break;
 
   case 26: // type: identifier
-#line 163 "parser.yy"
+#line 164 "parser.yy"
                    {
-        yylhs.value.as < Node * > () = new Node("TYPE_CUSTOM", "", yylineno);
-        yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+        yylhs.value.as < BaseNode * > () = new TypeCustomNode("TYPE_CUSTOM", yystack_[0].value.as < BaseNode * > ()->value, yylineno);
+        //$$->children.push_back($1);
       }
 #line 1073 "parser.tab.cc"
     break;
 
   case 27: // one_or_more_statements: n_statements statement
-#line 169 "parser.yy"
+#line 170 "parser.yy"
                                                {
-  yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-  yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+  yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
 }
 #line 1082 "parser.tab.cc"
     break;
 
   case 28: // statement: LCB n_statements RCB
-#line 175 "parser.yy"
+#line 176 "parser.yy"
                                 {
-                yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
+                yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
                 }
 #line 1090 "parser.tab.cc"
     break;
 
   case 29: // statement: IF LP expression RP statement else_case
-#line 178 "parser.yy"
+#line 179 "parser.yy"
                                                     {
-                  yylhs.value.as < Node * > () = new Node("IF", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[3].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new IfNode("IF", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[3].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                 }
 #line 1101 "parser.tab.cc"
     break;
 
   case 30: // statement: WHILE LP expression RP statement
-#line 184 "parser.yy"
+#line 185 "parser.yy"
                                              {
-                  yylhs.value.as < Node * > () = new Node("WHILE", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new WhileNode("WHILE", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                 }
 #line 1111 "parser.tab.cc"
     break;
 
   case 31: // statement: PRINTLN LP expression RP SC
-#line 189 "parser.yy"
+#line 190 "parser.yy"
                                         {
-                  yylhs.value.as < Node * > () = new Node("PRINTLN", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new PrintLnNode("PRINTLN", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                 }
 #line 1120 "parser.tab.cc"
     break;
 
   case 32: // statement: identifier ASSIGN expression SC
-#line 193 "parser.yy"
+#line 194 "parser.yy"
                                            {
-                  yylhs.value.as < Node * > () = new Node("IDASSIGN", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[3].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new IdAssignNode("IDASSIGN", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[3].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
           }
 #line 1130 "parser.tab.cc"
     break;
 
   case 33: // statement: identifier LB expression RB ASSIGN expression SC
-#line 198 "parser.yy"
+#line 199 "parser.yy"
                                                              {
-                  yylhs.value.as < Node * > () = new Node("LISTASSIGN", "", yylineno);
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[6].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[4].value.as < Node * > ());
-                  yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                  yylhs.value.as < BaseNode * > () = new ListAssignNode("LISTASSIGN", "", yylineno);
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[6].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[4].value.as < BaseNode * > ());
+                  yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
           }
 #line 1141 "parser.tab.cc"
     break;
 
   case 34: // else_case: %empty
-#line 206 "parser.yy"
+#line 207 "parser.yy"
                   {
-              yylhs.value.as < Node * > () = new Node("NO_ELSE", "", yylineno);
+              yylhs.value.as < BaseNode * > () = new NoElseNode("NO_ELSE", "", yylineno);
             }
 #line 1149 "parser.tab.cc"
     break;
 
   case 35: // else_case: ELSE statement
-#line 209 "parser.yy"
+#line 210 "parser.yy"
                            {
-              yylhs.value.as < Node * > () = new Node("ELSE", "", yylineno);
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = new ElseNode("ELSE", "", yylineno);
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 1158 "parser.tab.cc"
     break;
 
   case 36: // n_statements: %empty
-#line 215 "parser.yy"
+#line 216 "parser.yy"
                      {
-                yylhs.value.as < Node * > () = new Node("SCOPE", "", yylineno);
+                yylhs.value.as < BaseNode * > () = new ScopeNode("SCOPE", "", yylineno);
               }
 #line 1166 "parser.tab.cc"
     break;
 
   case 37: // n_statements: n_statements statement
-#line 218 "parser.yy"
+#line 219 "parser.yy"
                                      {
-                yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > ();
-                yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > ();
+                yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 1175 "parser.tab.cc"
     break;
 
   case 38: // expression: expression PLUSOP expression
-#line 224 "parser.yy"
+#line 225 "parser.yy"
                                          {      /*
                                                   Create a subtree that corresponds to the AddExpression
                                                   The root of the subtree is AddExpression
                                                   The children of the AddExpression subtree are the left hand side (expression accessed through $1) and right hand side of the expression (expression accessed through $3)
                                                 */
-                            yylhs.value.as < Node * > () = new Node("AddExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new AddExpressionNode("AddExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r1 "); */
                           }
 #line 1190 "parser.tab.cc"
     break;
 
   case 39: // expression: expression MINUSOP expression
-#line 234 "parser.yy"
+#line 235 "parser.yy"
                                             {
-                            yylhs.value.as < Node * > () = new Node("SubExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new SubExpressionNode("SubExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r2 "); */
                           }
 #line 1201 "parser.tab.cc"
     break;
 
   case 40: // expression: expression MULTOP expression
-#line 240 "parser.yy"
+#line 241 "parser.yy"
                                            {
-                            yylhs.value.as < Node * > () = new Node("MultExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new MultExpressionNode("MultExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r3 "); */
                           }
 #line 1212 "parser.tab.cc"
     break;
 
   case 41: // expression: expression DIVOP expression
-#line 246 "parser.yy"
+#line 247 "parser.yy"
                                           {
-                            yylhs.value.as < Node * > () = new Node("DIVOPExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new DivExpressionNode("DIVOPExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1223 "parser.tab.cc"
     break;
 
   case 42: // expression: expression LOGICAND expression
-#line 252 "parser.yy"
+#line 253 "parser.yy"
                                              {
-                            yylhs.value.as < Node * > () = new Node("LOGICANDExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new LogicAndExpressionNode("LOGICANDExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1234 "parser.tab.cc"
     break;
 
   case 43: // expression: expression LOGICOR expression
-#line 258 "parser.yy"
+#line 259 "parser.yy"
                                             {
-                            yylhs.value.as < Node * > () = new Node("LOGICORExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new LogicOrExpressionNode("LOGICORExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1245 "parser.tab.cc"
     break;
 
   case 44: // expression: expression LT expression
-#line 264 "parser.yy"
+#line 265 "parser.yy"
                                        {
-                            yylhs.value.as < Node * > () = new Node("LTExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new LtExpressionNode("LTExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1256 "parser.tab.cc"
     break;
 
   case 45: // expression: expression GT expression
-#line 270 "parser.yy"
+#line 271 "parser.yy"
                                        {
-                            yylhs.value.as < Node * > () = new Node("GTExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new GtExpressionNode("GTExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1267 "parser.tab.cc"
     break;
 
   case 46: // expression: expression EQUAL expression
-#line 276 "parser.yy"
+#line 277 "parser.yy"
                                           {
-                            yylhs.value.as < Node * > () = new Node("EQUALExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new EqualExpressionNode("EQUALExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1278 "parser.tab.cc"
     break;
 
   case 47: // expression: expression LB expression RB
-#line 282 "parser.yy"
+#line 283 "parser.yy"
                                           {
-                            yylhs.value.as < Node * > () = new Node("LBRBExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[3].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new LBRBExpressionNode("LBRBExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[3].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1289 "parser.tab.cc"
     break;
 
   case 48: // expression: expression DOT LENGTH
-#line 288 "parser.yy"
+#line 289 "parser.yy"
                                     {
-                            yylhs.value.as < Node * > () = new Node("DOTLENGTHExpression", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new DotLengthExpressionNode("DOTLENGTHExpression", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1299 "parser.tab.cc"
     break;
 
   case 49: // expression: expression DOT identifier LP method_call1 RP
-#line 293 "parser.yy"
+#line 294 "parser.yy"
                                                            {
-                            yylhs.value.as < Node * > () = new Node("METHOD_CALL", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[5].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[3].value.as < Node * > ());
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new MethodCallNode("METHOD_CALL", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[5].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[3].value.as < BaseNode * > ());
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
                             /* printf("r4 "); */
                           }
 #line 1311 "parser.tab.cc"
     break;
 
   case 50: // expression: factor
-#line 300 "parser.yy"
-                          {yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > (); /* printf("r5 ");*/}
+#line 301 "parser.yy"
+                          {yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > (); /* printf("r5 ");*/}
 #line 1317 "parser.tab.cc"
     break;
 
   case 51: // expression: TRUE
-#line 301 "parser.yy"
-                   {yylhs.value.as < Node * > () = new Node("TRUE", "", yylineno);}
+#line 302 "parser.yy"
+                   {yylhs.value.as < BaseNode * > () = new TrueNode("TRUE", "", yylineno);}
 #line 1323 "parser.tab.cc"
     break;
 
   case 52: // expression: FALSE
-#line 302 "parser.yy"
-                    {yylhs.value.as < Node * > () = new Node("FALSE", "", yylineno);}
+#line 303 "parser.yy"
+                    {yylhs.value.as < BaseNode * > () = new FalseNode("FALSE", "", yylineno);}
 #line 1329 "parser.tab.cc"
     break;
 
   case 53: // expression: identifier
-#line 303 "parser.yy"
-                         {yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > ();}
+#line 304 "parser.yy"
+                         {yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > ();}
 #line 1335 "parser.tab.cc"
     break;
 
   case 54: // expression: THIS
-#line 304 "parser.yy"
-                   {yylhs.value.as < Node * > () = new Node("THIS", "", yylineno);}
+#line 305 "parser.yy"
+                   {yylhs.value.as < BaseNode * > () = new ThisNode("THIS", "", yylineno);}
 #line 1341 "parser.tab.cc"
     break;
 
   case 55: // expression: NEW TYPE_INT LB expression RB
-#line 305 "parser.yy"
+#line 306 "parser.yy"
                                             {
-                            yylhs.value.as < Node * > () = new Node("NEW_LIST", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[1].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new NewListNode("NEW_LIST", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[1].value.as < BaseNode * > ());
                           }
 #line 1350 "parser.tab.cc"
     break;
 
   case 56: // expression: NEW identifier LP RP
-#line 309 "parser.yy"
+#line 310 "parser.yy"
                                    {
-                            yylhs.value.as < Node * > () = new Node("NEW_OBJECT", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new NewObjectNode("NEW_OBJECT", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                             }
 #line 1359 "parser.tab.cc"
     break;
 
   case 57: // expression: NOT expression
-#line 313 "parser.yy"
+#line 314 "parser.yy"
                              {
-                            yylhs.value.as < Node * > () = new Node("NOT", "", yylineno);
-                            yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+                            yylhs.value.as < BaseNode * > () = new NotNode("NOT", "", yylineno);
+                            yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
                           }
 #line 1368 "parser.tab.cc"
     break;
 
   case 58: // method_call1: %empty
-#line 319 "parser.yy"
+#line 320 "parser.yy"
                      {
-                  yylhs.value.as < Node * > () = new Node("NO_ARGUMENTS", "", yylineno);
+                  yylhs.value.as < BaseNode * > () = new NoArgumentsNode("NO_ARGUMENTS", "", yylineno);
                 }
 #line 1376 "parser.tab.cc"
     break;
 
   case 59: // method_call1: expression
-#line 322 "parser.yy"
+#line 323 "parser.yy"
                          {
-              yylhs.value.as < Node * > () = new Node("ARGUMENS", "", yylineno);
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = new ArgumentsNode("ARGUMENTS", "", yylineno);
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 1385 "parser.tab.cc"
     break;
 
   case 60: // method_call1: expression COMMA method_call2
-#line 326 "parser.yy"
+#line 327 "parser.yy"
                                             {
-                          yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > ();
-                          yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                          yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > ();
+                          yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                           }
 #line 1394 "parser.tab.cc"
     break;
 
   case 61: // method_call2: expression
-#line 332 "parser.yy"
+#line 333 "parser.yy"
                          {
-              yylhs.value.as < Node * > () = new Node("ARGUMENTS", "", yylineno);
-              yylhs.value.as < Node * > ()->children.push_back(yystack_[0].value.as < Node * > ());
+              yylhs.value.as < BaseNode * > () = new ArgumentsNode("ARGUMENTS", "", yylineno);
+              yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[0].value.as < BaseNode * > ());
             }
 #line 1403 "parser.tab.cc"
     break;
 
   case 62: // method_call2: expression COMMA method_call2
-#line 336 "parser.yy"
+#line 337 "parser.yy"
                                             {
-                          yylhs.value.as < Node * > () = yystack_[0].value.as < Node * > ();
-                          yylhs.value.as < Node * > ()->children.push_back(yystack_[2].value.as < Node * > ());
+                          yylhs.value.as < BaseNode * > () = yystack_[0].value.as < BaseNode * > ();
+                          yylhs.value.as < BaseNode * > ()->children.push_back(yystack_[2].value.as < BaseNode * > ());
                           }
 #line 1412 "parser.tab.cc"
     break;
 
   case 63: // factor: INT
-#line 342 "parser.yy"
-                          {  yylhs.value.as < Node * > () = new Node("Int", yystack_[0].value.as < std::string > (), yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
+#line 343 "parser.yy"
+                          {  yylhs.value.as < BaseNode * > () = new IntNode("Int", yystack_[0].value.as < std::string > (), yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
 #line 1418 "parser.tab.cc"
     break;
 
   case 64: // factor: LP expression RP
-#line 343 "parser.yy"
-                               { yylhs.value.as < Node * > () = yystack_[1].value.as < Node * > (); /* printf("r6 ");  simply return the expression */}
+#line 344 "parser.yy"
+                               { yylhs.value.as < BaseNode * > () = yystack_[1].value.as < BaseNode * > (); /* printf("r6 ");  simply return the expression */}
 #line 1424 "parser.tab.cc"
     break;
 
   case 65: // identifier: ID
-#line 346 "parser.yy"
-               { yylhs.value.as < Node * > () = new Node("ID", yystack_[0].value.as < std::string > (), yylineno);}
+#line 347 "parser.yy"
+               { yylhs.value.as < BaseNode * > () = new IdNode("ID", yystack_[0].value.as < std::string > (), yylineno);}
 #line 1430 "parser.tab.cc"
     break;
 
@@ -2002,13 +2002,13 @@ namespace yy {
   const short
   parser::yyrline_[] =
   {
-       0,    43,    43,    46,    53,    62,    65,    71,    79,    82,
-      87,    94,    97,   102,   111,   114,   118,   124,   128,   134,
-     141,   144,   148,   154,   157,   160,   163,   169,   175,   178,
-     184,   189,   193,   198,   206,   209,   215,   218,   224,   234,
-     240,   246,   252,   258,   264,   270,   276,   282,   288,   293,
-     300,   301,   302,   303,   304,   305,   309,   313,   319,   322,
-     326,   332,   336,   342,   343,   346
+       0,    44,    44,    47,    54,    63,    66,    72,    80,    83,
+      88,    95,    98,   103,   112,   115,   119,   125,   129,   135,
+     142,   145,   149,   155,   158,   161,   164,   170,   176,   179,
+     185,   190,   194,   199,   207,   210,   216,   219,   225,   235,
+     241,   247,   253,   259,   265,   271,   277,   283,   289,   294,
+     301,   302,   303,   304,   305,   306,   310,   314,   320,   323,
+     327,   333,   337,   343,   344,   347
   };
 
   void

@@ -12,7 +12,7 @@ class AST {
         A = false;
         B = true;
         // The following if-statements should generate the same tree.
-        if (A)
+        if (123==32)
             if (B)
                 B = true;
             else

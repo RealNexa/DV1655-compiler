@@ -405,7 +405,7 @@ namespace yy {
       // method_call2
       // factor
       // identifier
-      char dummy1[sizeof (Node *)];
+      char dummy1[sizeof (BaseNode *)];
 
       // PLUSOP
       // MINUSOP
@@ -673,7 +673,7 @@ namespace yy {
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.move< Node * > (std::move (that.value));
+        value.move< BaseNode * > (std::move (that.value));
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -741,12 +741,12 @@ namespace yy {
 #endif
 
 #if 201103L <= YY_CPLUSPLUS
-      basic_symbol (typename Base::kind_type t, Node *&& v)
+      basic_symbol (typename Base::kind_type t, BaseNode *&& v)
         : Base (t)
         , value (std::move (v))
       {}
 #else
-      basic_symbol (typename Base::kind_type t, const Node *& v)
+      basic_symbol (typename Base::kind_type t, const BaseNode *& v)
         : Base (t)
         , value (v)
       {}
@@ -811,7 +811,7 @@ switch (yykind)
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.template destroy< Node * > ();
+        value.template destroy< BaseNode * > ();
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -2070,7 +2070,7 @@ switch (yykind)
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.copy< Node * > (YY_MOVE (that.value));
+        value.copy< BaseNode * > (YY_MOVE (that.value));
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
@@ -2170,7 +2170,7 @@ switch (yykind)
       case symbol_kind::S_method_call2: // method_call2
       case symbol_kind::S_factor: // factor
       case symbol_kind::S_identifier: // identifier
-        value.move< Node * > (YY_MOVE (s.value));
+        value.move< BaseNode * > (YY_MOVE (s.value));
         break;
 
       case symbol_kind::S_PLUSOP: // PLUSOP
