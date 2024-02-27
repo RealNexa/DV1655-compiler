@@ -18,6 +18,8 @@ class BS {
         int aux01;
         int aux02;
         
+        a = (a+10)+23+(b+30);
+
         return 999;
     }
 

@@ -1,135 +1,135 @@
 digraph {
 n0 [label="GOAL:"];
 n1 [label="MAIN_CLASS:"];
-n2 [label="ID:DanglingElse"];
+n2 [label="ID:UnknownSymbol"];
 n1 -> n2
-n3 [label="ID:a"];
+n3 [label="ID:args"];
 n1 -> n3
 n4 [label="SCOPE:"];
-n5 [label="PRINTLN:"];
-n6 [label="METHOD_CALL:"];
-n7 [label="NEW_OBJECT:"];
-n8 [label="ID:AST"];
-n7 -> n8
-n6 -> n7
-n9 [label="ID:TestIfElse"];
-n6 -> n9
-n10 [label="NO_ARGUMENTS:"];
-n6 -> n10
+n5 [label="IDASSIGN:"];
+n6 [label="ID:a"];
 n5 -> n6
+n7 [label="Int:10"];
+n5 -> n7
 n4 -> n5
 n1 -> n4
 n0 -> n1
-n11 [label="NON_MAIN_CLASSES:"];
-n12 [label="CLASS_DECLARATION:"];
-n13 [label="ID:AST"];
-n12 -> n13
-n14 [label="VAR_DECLARATIONS:"];
-n12 -> n14
-n15 [label="METHOD_DECLARATIONS:"];
-n16 [label="METHOD_DECLARATION:"];
-n17 [label="TYPE_INT:"];
+n8 [label="NON_MAIN_CLASSES:"];
+n9 [label="CLASS_DECLARATION:"];
+n10 [label="ID:MyClass"];
+n9 -> n10
+n11 [label="VAR_DECLARATIONS:"];
+n9 -> n11
+n12 [label="METHOD_DECLARATIONS:"];
+n13 [label="METHOD_DECLARATION:"];
+n14 [label="TYPE_BOOLEAN:"];
+n13 -> n14
+n15 [label="ID:hello"];
+n13 -> n15
+n16 [label="PARAMETERS:"];
+n17 [label="PARAMETER:"];
+n18 [label="TYPE_INT:"];
+n17 -> n18
+n19 [label="ID:z"];
+n17 -> n19
 n16 -> n17
-n18 [label="ID:TestIfElse"];
-n16 -> n18
-n19 [label="PARAMETERS:"];
-n16 -> n19
-n20 [label="BODY:"];
-n21 [label="TYPEID:"];
-n22 [label="TYPE_BOOLEAN:"];
-n21 -> n22
-n23 [label="ID:A"];
-n21 -> n23
+n20 [label="PARAMETER:"];
+n21 [label="TYPE_INT:"];
 n20 -> n21
-n24 [label="TYPEID:"];
-n25 [label="TYPE_BOOLEAN:"];
-n24 -> n25
-n26 [label="ID:B"];
-n24 -> n26
-n20 -> n24
-n27 [label="IDASSIGN:"];
-n28 [label="ID:A"];
+n22 [label="ID:y"];
+n20 -> n22
+n16 -> n20
+n23 [label="PARAMETER:"];
+n24 [label="TYPE_CUSTOM:Lastbil"];
+n23 -> n24
+n25 [label="ID:x"];
+n23 -> n25
+n16 -> n23
+n13 -> n16
+n26 [label="BODY:"];
+n27 [label="TYPEID:"];
+n28 [label="TYPE_INT:"];
 n27 -> n28
-n29 [label="FALSE:"];
+n29 [label="ID:w"];
 n27 -> n29
-n20 -> n27
-n30 [label="IDASSIGN:"];
-n31 [label="ID:B"];
-n30 -> n31
-n32 [label="TRUE:"];
-n30 -> n32
-n20 -> n30
-n33 [label="IF:"];
-n34 [label="EQUALExpression:"];
-n35 [label="Int:123"];
+n26 -> n27
+n13 -> n26
+n30 [label="TRUE:"];
+n13 -> n30
+n12 -> n13
+n9 -> n12
+n8 -> n9
+n31 [label="CLASS_DECLARATION:"];
+n32 [label="ID:BS"];
+n31 -> n32
+n33 [label="VAR_DECLARATIONS:"];
+n34 [label="TYPEID:"];
+n35 [label="TYPE_INT_LIST:"];
 n34 -> n35
-n36 [label="Int:32"];
+n36 [label="ID:number"];
 n34 -> n36
 n33 -> n34
-n37 [label="IF:"];
-n38 [label="ID:B"];
+n37 [label="TYPEID:"];
+n38 [label="TYPE_INT:"];
 n37 -> n38
-n39 [label="IDASSIGN:"];
-n40 [label="ID:B"];
-n39 -> n40
-n41 [label="TRUE:"];
-n39 -> n41
+n39 [label="ID:size"];
 n37 -> n39
-n42 [label="ELSE:"];
-n43 [label="IDASSIGN:"];
-n44 [label="ID:B"];
-n43 -> n44
-n45 [label="FALSE:"];
-n43 -> n45
-n42 -> n43
-n37 -> n42
 n33 -> n37
-n46 [label="NO_ELSE:"];
-n33 -> n46
-n20 -> n33
-n47 [label="IDASSIGN:"];
-n48 [label="ID:C"];
-n47 -> n48
-n49 [label="Int:1"];
-n47 -> n49
-n20 -> n47
-n50 [label="IF:"];
-n51 [label="ID:A"];
-n50 -> n51
-n52 [label="SCOPE:"];
-n53 [label="IF:"];
-n54 [label="ID:B"];
-n53 -> n54
+n31 -> n33
+n40 [label="METHOD_DECLARATIONS:"];
+n41 [label="METHOD_DECLARATION:"];
+n42 [label="TYPE_INT:"];
+n41 -> n42
+n43 [label="ID:start"];
+n41 -> n43
+n44 [label="PARAMETERS:"];
+n45 [label="PARAMETER:"];
+n46 [label="TYPE_INT:"];
+n45 -> n46
+n47 [label="ID:sz"];
+n45 -> n47
+n44 -> n45
+n41 -> n44
+n48 [label="BODY:"];
+n49 [label="TYPEID:"];
+n50 [label="TYPE_INT:"];
+n49 -> n50
+n51 [label="ID:aux01"];
+n49 -> n51
+n48 -> n49
+n52 [label="TYPEID:"];
+n53 [label="TYPE_INT:"];
+n52 -> n53
+n54 [label="ID:aux02"];
+n52 -> n54
+n48 -> n52
 n55 [label="IDASSIGN:"];
-n56 [label="ID:B"];
+n56 [label="ID:a"];
 n55 -> n56
-n57 [label="TRUE:"];
-n55 -> n57
-n53 -> n55
-n58 [label="ELSE:"];
-n59 [label="IDASSIGN:"];
-n60 [label="ID:A"];
+n57 [label="AddExpression:"];
+n58 [label="AddExpression:"];
+n59 [label="AddExpression:"];
+n60 [label="ID:a"];
 n59 -> n60
-n61 [label="FALSE:"];
+n61 [label="Int:10"];
 n59 -> n61
 n58 -> n59
-n53 -> n58
-n52 -> n53
-n62 [label="IDASSIGN:"];
-n63 [label="ID:C"];
-n62 -> n63
-n64 [label="Int:1"];
-n62 -> n64
-n52 -> n62
-n50 -> n52
-n65 [label="NO_ELSE:"];
-n50 -> n65
-n20 -> n50
-n16 -> n20
-n66 [label="Int:1"];
-n16 -> n66
-n15 -> n16
-n12 -> n15
-n11 -> n12
-n0 -> n11
+n62 [label="Int:23"];
+n58 -> n62
+n57 -> n58
+n63 [label="AddExpression:"];
+n64 [label="ID:b"];
+n63 -> n64
+n65 [label="Int:30"];
+n63 -> n65
+n57 -> n63
+n55 -> n57
+n48 -> n55
+n41 -> n48
+n66 [label="Int:999"];
+n41 -> n66
+n40 -> n41
+n31 -> n40
+n8 -> n31
+n0 -> n8
 }

@@ -23,8 +23,10 @@ class AST {
         if (A) {
             if (B)
                 B = true;
-            else
+            else{
+                id = 123;
                 A = false;
+            }
 
             C = 1; // ADDED FOR DEMONSTRATION OF SCOPE
         }

@@ -19,7 +19,7 @@ class BaseNode {
 
 	virtual void execute(SymbolTable*) = 0;
 	virtual void semanticAnalysis(SymbolTable*) = 0;
-	virtual std::string evaluate() {
+	virtual std::string evaluate(SymbolTable*) {
 		return "NULL";
 	}
 
@@ -356,10 +356,10 @@ class MethodDeclarationNode: public BaseNode {
 	void semanticAnalysis(SymbolTable* symbol_table) {
 		symbol_table->enter_scope();
 		auto it = children.begin();
-		std::string method_type = (*it)->evaluate();
+		std::string method_type = (*it)->evaluate(symbol_table);
 
 		it += 4;
-		std::string method_return_type = (*it)->evaluate();
+		std::string method_return_type = (*it)->evaluate(symbol_table);
 		if (method_type != method_return_type) {
 			std::cout << "Method return type mismatch. Line: " << this->lineno << "\n"; 
 		}
@@ -466,7 +466,7 @@ class TypeIntListNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate() {
+	std::string evaluate(SymbolTable* symbol_table) {
 		return "TYPE_INT_LIST";
 	}
 };
@@ -487,7 +487,7 @@ class TypeBooleanNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate() {
+	std::string evaluate(SymbolTable* symbol_table) {
 		return "TYPE_BOOLEAN";
 	}
 };
@@ -508,7 +508,7 @@ class TypeIntNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate() {
+	std::string evaluate(SymbolTable* symbol_table) {
 		return "TYPE_INT";
 	}
 
@@ -530,7 +530,7 @@ class TypeCustomNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate() {
+	std::string evaluate(SymbolTable* symbol_table) {
 		return this->value;
 	}
 
@@ -551,7 +551,7 @@ class IfNode: public BaseNode {
 	void semanticAnalysis(SymbolTable* symbol_table){
 		auto it = children.begin();
 
-		std::string if_type = (*it)->evaluate();
+		std::string if_type = (*it)->evaluate(symbol_table);
 		if(if_type != "TYPE_BOOLEAN") {
 			std::cout << "If statement is not boolean. Line: " << this->lineno << "\n";
 		}
@@ -574,6 +574,19 @@ class WhileNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		auto it = children.begin();
+
+		std::string if_type = (*it)->evaluate(symbol_table);
+		if(if_type != "TYPE_BOOLEAN") {
+			std::cout << "While statement is not boolean. Line: " << this->lineno << "\n";
+		}
+
+		it++;
+		(*it)->semanticAnalysis(symbol_table);
+	}
+
 };
 
 class PrintLnNode: public BaseNode {
@@ -587,6 +600,11 @@ class PrintLnNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		return;
+	}
+
 };
 
 class IdAssignNode: public BaseNode {
@@ -600,6 +618,25 @@ class IdAssignNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		auto it = children.begin();
+		
+		std::string id = (*it)->value;
+		it++;
+		std::string assign_type = (*it)->evaluate(symbol_table);
+
+		Record* lookup = symbol_table.lookup(id);
+
+		if (lookup->record_type == "NULL") {
+			std::cout << "Identifier: " << id << " not declared in current scope. Line: " << this->lineno << "\n";
+		}
+		else if (lookup->record_type != assign_type) {
+			std::cout << "identifier: " << id << " doesn't match assign type. Line: " << this->lineno << "\n";
+		}
+
+	}
+
 };
 
 class ListAssignNode: public BaseNode {
@@ -613,6 +650,31 @@ class ListAssignNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		auto it = children.begin();
+		
+		std::string id = (*it)->value;
+		it++;
+		std::string index_type = (*it)->evaluate(symbol_table);
+		it++;
+		std::string assign_type = (*it)->evaluate(symbol_table);
+
+		Record* lookup = symbol_table.lookup(id);
+
+		if (lookup->record_type == "NULL") {
+			std::cout << "Identifier: " << id << " not declared in current scope. Line: " << this->lineno << "\n";
+		}
+		else if (lookup->record_type != "TYPE_INT_LIST") {
+			std::cout << "Identifier: " << id << " doesn't match assign type. Line: " << this->lineno << "\n";
+		}
+		else if (index_type != "TYPE_INT"){
+			std::cout << "Index on identifier: " << id << " is not INT. Line: " << this->lineno << "\n";
+		}
+		else if (assign_type != "TYPE_INT") {
+			std::cout << "Expression on identifier: " << id << " is not INT. Line: " << this->lineno << "\n";
+		}
+	}
 };
 
 class NoElseNode: public BaseNode {
@@ -624,6 +686,10 @@ class NoElseNode: public BaseNode {
 	}
 
 	void execute(SymbolTable* symbol_table) {
+		return;
+	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
 		return;
 	}
 };
@@ -639,6 +705,12 @@ class ElseNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		auto it = children.begin();
+		(*it)->semanticAnalysis(symbol_table);
+	}
+
 };
 
 class ScopeNode: public BaseNode {
@@ -652,6 +724,12 @@ class ScopeNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	void semanticAnalysis(SymbolTable* symbol_table){
+		for(auto it = children.begin(); it != children.end(); it++) {
+			(*it)->semanticAnalysis(symbol_table);
+		}
+	}
 };
 
 class AddExpressionNode: public BaseNode {
@@ -664,6 +742,21 @@ class AddExpressionNode: public BaseNode {
 
 	void execute(SymbolTable* symbol_table) {
 		return;
+	}
+
+	std::string evaluate(SymbolTable* symbol_table) {
+		auto it = children.begin();
+		std::string lhs_type = (*it)->evaluate(symbol_table);
+		it++;
+		std::string rhs_type = (*it)->evaluate(symbol_table);
+
+		if (lhs_type != rhs_type) {
+			std::cout << "Type mismatch in add expression. Line: " << this->lineno << "\n";
+			return "TYPE_MISMATCH";
+		}
+		else {
+			return lhs_type;
+		}
 	}
 };
 
@@ -822,7 +915,7 @@ class TrueNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate() {
+	std::string evaluate(SymbolTable* symbol_table) {
 		return "TYPE_BOOLEAN";
 	}
 };
@@ -839,7 +932,7 @@ class FalseNode: public BaseNode {
 		return;
 	}
 
-	std::string evaluate(){
+	std::string evaluate(SymbolTable* symbol_table){
 		return "TYPE_BOOLEAN";
 	}
 };
@@ -945,6 +1038,17 @@ class IdNode: public BaseNode {
 
 	void execute(SymbolTable* symbol_table) {
 		return;
+	}
+	
+	std::string evaluate(SymbolTable* symbol_table){
+		auto it = children.begin();
+		if(symbol_table->lookup(this->value).record_type == "NULL") {
+			std::cout << "Identifier " << this->value << " not declared. Line: " << this->lineno << "\n";
+			return "ID_NOEXIST";
+		}
+		else {
+			return this->type;
+		} 
 	}
 };
 
