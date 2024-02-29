@@ -68,5 +68,6 @@
         "set": "cpp",
         "unordered_set": "cpp",
         "symboltable.h": "c"
-    }
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/g++"
 }

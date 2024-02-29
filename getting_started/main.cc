@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 			
 			root->semanticAnalysis(symbol_table);
 
-			traverse_preorder(symbol_table->root);
+			// traverse_preorder(symbol_table->root);
 
 		}
 	}
@@ -191,7 +191,7 @@ void traverse_preorder(Scope* root_scope) {
 }
 
 
-
+/*
 void traverse_postorder(BaseNode* root, SymbolTable* symbol_table) {
 	if (root_scope->children_scope.size() == 0) {
 		print_records(root_scope->records);
@@ -204,3 +204,4 @@ void traverse_postorder(BaseNode* root, SymbolTable* symbol_table) {
 	
 	}
 }
+*/

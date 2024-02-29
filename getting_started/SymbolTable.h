@@ -20,6 +20,8 @@ class Record{
     std::string print_string() {
         return type + " " + identifier;
     }
+
+    virtual ~Record() = default;
 };
 
 class NullRecord: public Record {
@@ -45,10 +47,11 @@ class Variable: public Record{
 };
 
 class Method: public Record{
+
+    public:
     std::vector<Variable> parameters;
     std::map<std::string, Variable> variables;
 
-    public:
     Method(std::string type, std::string identifier) {
         this->type = type;
         this->identifier = identifier;
@@ -74,10 +77,11 @@ class Method: public Record{
 
 
 class Class: public Record{
+
+    public:
     std::map<std::string,Variable> class_variables;
     std::map<std::string,Method> class_methods;
 
-    public:
     Class(std::string identifier){
         this->identifier = identifier;
         this->type = "CLASS";
