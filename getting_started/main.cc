@@ -73,12 +73,19 @@ int main(int argc, char **argv)
 			}
 			SymbolTable* symbol_table = new SymbolTable();
 
+			// Populate symbol table
 			root->execute(symbol_table);
-			symbol_table->current = symbol_table->root;
+
+			// Create symbol table tree
+			symbol_table->generate_tree();
+			// Reset next_child counters
+			symbol_table->reset_tree();
 			
+			//traverse_preorder(symbol_table->root);
+
+
 			root->semanticAnalysis(symbol_table);
 
-			// traverse_preorder(symbol_table->root);
 
 		}
 	}

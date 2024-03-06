@@ -340,7 +340,7 @@ method_call2: expression {
                           }
             ;
             
-factor:     INT           {  $$ = new IntNode("Int", $1, yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
+factor:     INT           {  $$ = new IntNode("TYPE_INT", $1, yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
             | LP expression RP { $$ = $2; /* printf("r6 ");  simply return the expression */}
     ;
 

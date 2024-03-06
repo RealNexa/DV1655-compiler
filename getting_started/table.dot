@@ -1,0 +1,19 @@
+digraph {
+n0 [label="Identifier: DuplicateIdentifiers, Record: CLASS, Type: DuplicateIdentifiers\nIdentifier: MyClass, Record: CLASS, Type: MyClass\n"];
+n1 [label="Identifier: main, Record: METHOD, Type: TYPE_VOID\n"];
+n2 [label="Identifier: a, Record: VARIABLE, Type: TYPE_STRING_LIST\n"];
+n1 -> n2
+n0 -> n1
+n3 [label="Identifier: THIS, Record: VARIABLE, Type: DuplicateIdentifiers\nIdentifier: a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: func, Record: METHOD, Type: TYPE_BOOLEAN\n"];
+n4 [label=""];
+n3 -> n4
+n5 [label=""];
+n3 -> n5
+n0 -> n3
+n6 [label="Identifier: Pen, Record: METHOD, Type: TYPE_INT\nIdentifier: Pen2, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\nIdentifier: b, Record: VARIABLE, Type: TYPE_BOOLEAN\n"];
+n7 [label="Identifier: param, Record: VARIABLE, Type: TYPE_INT\n"];
+n6 -> n7
+n8 [label="Identifier: param, Record: VARIABLE, Type: TYPE_INT\n"];
+n6 -> n8
+n0 -> n6
+}

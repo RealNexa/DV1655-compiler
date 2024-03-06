@@ -1413,7 +1413,7 @@ namespace yy {
 
   case 63: // factor: INT
 #line 343 "parser.yy"
-                          {  yylhs.value.as < BaseNode * > () = new IntNode("Int", yystack_[0].value.as < std::string > (), yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
+                          {  yylhs.value.as < BaseNode * > () = new IntNode("TYPE_INT", yystack_[0].value.as < std::string > (), yylineno); /* printf("r5 ");  Here we create a leaf node Int. The value of the leaf node is $1 */}
 #line 1418 "parser.tab.cc"
     break;
 

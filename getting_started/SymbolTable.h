@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <map>
 #include <algorithm>
+#include <sstream>
 
 
 class Record{
@@ -64,13 +65,16 @@ class Method: public Record{
     void addVariable(std::string key, Variable value){
         variables.insert(std::pair<std::string, Variable>(key, value));
     }
-    std::map<std::string, Variable>::iterator lookupVariable(std::string key){
-        variables.find(key);
+    bool lookupVariable(std::string key){
+        return variables.find(key) != variables.end();
     }
-    std::vector<Variable>::iterator lookupParameterVariable(Variable variable){
-        std::vector<Variable>::iterator iter;
-        iter = std::find(parameters.begin(), parameters.end(), variable);
-        return iter;
+    bool lookupParameterVariable(std::string variable){
+        for(auto it = parameters.begin(); it != parameters.end(); it++) {
+            if (it->identifier == variable) {
+                return true;
+            }
+        }
+        return false;
     }
 
 };
@@ -84,7 +88,7 @@ class Class: public Record{
 
     Class(std::string identifier){
         this->identifier = identifier;
-        this->type = "CLASS";
+        this->type = identifier;
         this->record_type = "CLASS";
     }
 
@@ -94,17 +98,18 @@ class Class: public Record{
     void addMethod(std::string key, Method value){
         class_methods.insert(std::pair<std::string, Method>(key, value));
     }
-    std::map<std::string,Variable>::iterator lookupVariable(std::string key){
-        this->class_variables.find(key);
+    bool lookupVariable(std::string key){
+        return this->class_variables.find(key) != this->class_variables.end();
     }
-    std::map<std::string,Method>::iterator lookupMethod(std::string key){   
-        this->class_methods.find(key); 
+    bool lookupMethod(std::string key){
+        return this->class_methods.find(key) != this->class_methods.end();
     }
 };
 
 
 class Scope {
     public:
+        int id;
         int next_child_index = 0;
         Scope* parent;
         std::map<std::string, Record*> records;
@@ -163,6 +168,29 @@ class Scope {
             return false;
         }
     }
+
+    std::string get_records_string() {
+
+        std::stringstream records_string;
+        for(auto it = records.begin(); it != records.end(); it++) {
+            records_string  << "Identifier: " << it->second->identifier
+                            << ", Record: " << it->second->record_type 
+                            << ", Type: " << it->second->type << "\\n";
+        }
+        return records_string.str();
+    }
+
+    void generate_tree_content(int &count, std::ofstream *outStream) {
+	    id = count++;
+	    *outStream << "n" << id << " [label=\"" << this->get_records_string() << "\"];" << std::endl;
+
+	  for (auto i = children_scope.begin(); i != children_scope.end(); i++)
+	  {
+		  (*i)->generate_tree_content(count, outStream);
+		  *outStream << "n" << id << " -> n" << (*i)->id << std::endl;
+	  }
+    }
+
 };
 
 class SymbolTable{
@@ -200,7 +228,36 @@ class SymbolTable{
     bool remove(std::string key) {
         return current->remove(key);
     }
-};
 
+    void generate_tree() {
+		std::ofstream outStream;
+		char* filename = "table.dot";
+	  	outStream.open(filename);
+
+		int count = 0;
+		outStream << "digraph {" << std::endl;
+		root->generate_tree_content(count, &outStream);
+		outStream << "}" << std::endl;
+		outStream.close();
+
+    }
+
+    void print_current_scope() {
+        std::cout << "Current Scope: " << std::endl;
+        std::cout << current->get_records_string() << "\n";
+    }
+
+    void reset_tree() {
+        this->current = this->root;
+        recursive_reset(this->root);
+    }
+
+    void recursive_reset(Scope* s) {
+        s->next_child_index = 0;
+        for (auto i = s->children_scope.begin(); i != s->children_scope.end(); i++){
+            recursive_reset(*i);
+        }    
+    }
+};
 
 #endif
