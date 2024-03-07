@@ -88,7 +88,7 @@ class Class: public Record{
 
     Class(std::string identifier){
         this->identifier = identifier;
-        this->type = identifier;
+        this->type = identifier.substr(6, std::string::npos);
         this->record_type = "CLASS";
     }
 

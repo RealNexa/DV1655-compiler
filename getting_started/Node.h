@@ -158,22 +158,22 @@ class MainClassNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		auto it = this->children.begin();
 		
-		Class* main_class = new Class((*it)->value);
+		Class* main_class = new Class("CLASS_"+(*it)->value);
 		symbol_table->current_class = main_class;
-		symbol_table->put((*it)->value, main_class);
+		symbol_table->put("CLASS_" + (*it)->value, main_class);
 
 
 		symbol_table->enter_scope();
-		Method* main_method = new Method("TYPE_VOID", "main");
-		symbol_table->current_class->addMethod("main", *main_method);
+		Method* main_method = new Method("TYPE_VOID", "METHOD_main");
+		symbol_table->current_class->addMethod("METHOD_main", *main_method);
 		symbol_table->current_method = main_method;
-		symbol_table->put("main", main_method);
+		symbol_table->put("CLASS_main", main_method);
 
 		symbol_table->enter_scope();
 		it++;
-		Variable* main_variable = new Variable((*it)->value, "TYPE_STRING_LIST");
-		symbol_table->current_method->addVariable((*it)->value, *main_variable);
-		symbol_table->put((*it)->value, main_variable);
+		Variable* main_variable = new Variable("CLASS_VAR_"+(*it)->value, "TYPE_STRING_LIST");
+		symbol_table->current_method->addVariable("CLASS_VAR_"+(*it)->value, *main_variable);
+		symbol_table->put("CLASS_VAR_" + (*it)->value, main_variable);
 
 		symbol_table->exit_scope();
 		symbol_table->exit_scope();
@@ -223,16 +223,15 @@ class ClassDeclarationNode: public BaseNode {
 	}
 
 	void execute(SymbolTable* symbol_table) {
-		
 		auto it = this->children.begin();
 
-		Record* _record = symbol_table->root->lookup((*it)->value);
+		Record* _record = symbol_table->root->lookup("CLASS_"+(*it)->value);
 		if (_record->record_type != "NULL") {
 			std::cout << "Line " << this->lineno << ": Class " << (*it)->value << " is already declared." << std::endl;
 		}
 
-		Class *non_main_class = new Class((*it)->value);
-		symbol_table->put((*it)->value, non_main_class);
+		Class *non_main_class = new Class("CLASS_"+(*it)->value);
+		symbol_table->put("CLASS_" + (*it)->value, non_main_class);
 		symbol_table->current_class = non_main_class;
 		symbol_table->current_method = nullptr;
 
@@ -301,24 +300,24 @@ class TypeIdNode: public BaseNode {
 
 		// Checks if variable is already declared as class variable. Only check if we are declaring class variables
 		if(symbol_table->current_method == nullptr){
-			if (symbol_table->current_class->lookupVariable(identifier)) {
+			if (symbol_table->current_class->lookupVariable("CLASS_VAR_"+identifier)) {
 				std::cout << "Line " << this->lineno << ": Class variable " << identifier << " is already declared."<< std::endl;
 			}
 		}
 
 		// Checks if we are in a method body and NOT a class var declaration
 		if(symbol_table->current_method != nullptr) {
-			if (symbol_table->current_method->lookupParameterVariable(identifier)){
+			if (symbol_table->current_method->lookupParameterVariable("PARAMETER_"+identifier)){
 				std::cout << "Line " << this->lineno << ": Variable " << identifier << " is already declared as parameter." << std::endl;
 			}
-			if (symbol_table->current_method->lookupVariable(identifier)) {
+			if (symbol_table->current_method->lookupVariable("VARIABLE_"+identifier)) {
 				std::cout << "Line " << this->lineno << ": Variable " << identifier << " is already declared in method body." << std::endl;
 			}
 		}
 		else {
-			Variable* var = new Variable(identifier, type);
-			symbol_table->put(identifier, var);
-			symbol_table->current_class->addVariable(identifier, *var);
+			Variable* var = new Variable("CLASS_VAR_"+identifier, type);
+			symbol_table->put("CLASS_VAR_" + identifier, var);
+			symbol_table->current_class->addVariable("CLASS_VAR_"+identifier, *var);
 		}
 	}
 
@@ -370,13 +369,13 @@ class MethodDeclarationNode: public BaseNode {
 		it++;
 		std::string method_name = (*it)->value;
 
-		if (symbol_table->current_class->lookupMethod(method_name)) {
+		if (symbol_table->current_class->lookupMethod("METHOD_"+method_name)) {
 			std::cout << "Line " << this->lineno << ": Method " << method_name << " is already declared in class." << std::endl;
 		}
 
-		Method* _method = new Method(type, method_name);
+		Method* _method = new Method(type, "METHOD_"+method_name);
 		symbol_table->current_method = _method;
-		symbol_table->put(method_name, _method);
+		symbol_table->put("METHOD_" + method_name, _method);
 
 		symbol_table->enter_scope();
 		it++;
@@ -386,7 +385,7 @@ class MethodDeclarationNode: public BaseNode {
 		
 		symbol_table->exit_scope();
 		
-		symbol_table->current_class->addMethod(method_name, *_method);
+		symbol_table->current_class->addMethod("METHOD_"+method_name, *_method);
 	}
 
 	void semanticAnalysis(SymbolTable* symbol_table) {
@@ -446,7 +445,7 @@ class ParameterNode: public BaseNode {
 		}
 
 		// Check parameter duplicates
-		if(symbol_table->current_method->lookupParameterVariable(identifier)) {
+		if(symbol_table->current_method->lookupParameterVariable("PARAMETER_"+identifier)) {
 			std::cout << "Line " << this->lineno << ": Parameter " << identifier << " is already declared." << std::endl;
 		}
 		// Checks if parameter is duplicate of class variable
@@ -454,8 +453,8 @@ class ParameterNode: public BaseNode {
 		// 	std::cout << "Parameter " << identifier << " is duplicate of class variable. Line: " << this->lineno << std::endl;
 		// }
 
-		Variable* var = new Variable(identifier, type);
-		symbol_table->put(identifier, var);
+		Variable* var = new Variable("PARAMETER_"+identifier, type);
+		symbol_table->put("PARAMETER_" + identifier, var);
 		symbol_table->current_method->addParameters(*var);
 	}
 
@@ -484,9 +483,9 @@ class BodyNode: public BaseNode {
 					type = (*it)->children.front()->value;
 				}
 
-				Variable* _variable = new Variable(identifier, type);
-				symbol_table->put(identifier, _variable);
-				symbol_table->current_method->addVariable(identifier, *_variable);
+				Variable* _variable = new Variable("VARIABLE_"+identifier, type);
+				symbol_table->put("VARIABLE_" + identifier, _variable);
+				symbol_table->current_method->addVariable("VARIABLE_"+identifier, *_variable);
 			}
 		}
 	}
@@ -576,7 +575,7 @@ class TypeCustomNode: public BaseNode {
 	
 	void semanticAnalysis(SymbolTable* symbol_table){
 		if (this->type == "TYPE_CUSTOM"){
-			Record* _record = symbol_table->root->lookup(this->value);
+			Record* _record = symbol_table->root->lookup("CLASS_"+this->value);
 			if (_record->record_type == "NULL"){
 				std::cout << "Line " << this->lineno << ": Unknown type " << this->value << " is not declared." << std::endl;
 			}
@@ -676,15 +675,16 @@ class IdAssignNode: public BaseNode {
 		auto it = children.begin();
 		
 		std::string id = (*it)->value;
+		std::string id_type = (*it)->evaluate(symbol_table);
 		it++;
 		std::string assign_type = (*it)->evaluate(symbol_table);
 
-		Record* lookup = symbol_table->lookup(id);
+		//Record* lookup = symbol_table->lookup("VARIABLE_"+id);
 
 		// if (lookup->record_type == "NULL") {
 		// 	std::cout << "Identifier: " << id << " not declared in current scope. Line: " << this->lineno << "\n";
 		// }
-		if ((lookup->type != assign_type) || (assign_type == "ID_NOEXIST")) {
+		if ((id_type != assign_type) || (assign_type == "ID_NOEXIST")) {
 			std::cout << "Line " << this->lineno << ": Identifier: " << id << " doesn't match assign type." << "\n";
 		}
 	}
@@ -710,8 +710,14 @@ class ListAssignNode: public BaseNode {
 		std::string index_type = (*it)->evaluate(symbol_table);
 		it++;
 		std::string assign_type = (*it)->evaluate(symbol_table);
-
-		Record* lookup = symbol_table->lookup(id);
+		
+		Record* lookup = symbol_table->lookup("VARIABLE_"+id);
+		if(lookup->record_type == "NULL"){
+			lookup = symbol_table->lookup("PARAMETER_"+id);
+		}
+		if(lookup->record_type == "NULL"){
+			lookup = symbol_table->lookup("CLASS_VAR_"+id);
+		}
 
 		if (lookup->record_type == "NULL") {
 			std::cout << "Line " << this->lineno << ": Identifier: " << id << " not declared in scope." << "\n";
@@ -723,7 +729,7 @@ class ListAssignNode: public BaseNode {
 			std::cout << "Line " << this->lineno << ": Index of identifier: " << id << " does not evaluate to TYPE_INT." << "\n";
 		}
 		else if (assign_type != "TYPE_INT") {
-			std::cout << "Line " << this->lineno << ": Expression on identifier: " << id << " does not evaluate to TYPE_INT." << "\n";
+			std::cout << "Line " << this->lineno << ": Expression that assigned is to identifier " << id << " does not evaluate to TYPE_INT." << "\n";
 		}
 	}
 };
@@ -1169,7 +1175,6 @@ class MethodCallNode: public BaseNode {
 	std::string evaluate(SymbolTable* symbol_table){
 		auto it = children.begin();
 		std::string id_type = (*it)->evaluate(symbol_table);
-
 		it++;
 		std::string call_method = (*it)->value;
 
@@ -1184,13 +1189,13 @@ class MethodCallNode: public BaseNode {
 			return "TYPE_MISMATCH";
 		}
 
-		Class* class_record = dynamic_cast<Class*>(symbol_table->root->lookup(id_type));
+		Class* class_record = dynamic_cast<Class*>(symbol_table->root->lookup("CLASS_"+id_type));
 		if (class_record == nullptr) {
 			std::cout << "Line " << this->lineno << ": Class " << id_type << " is not declared." << "\n";
 			return "ID_NOEXIST";
 		}
 		else {
-			auto method_iterator = class_record->class_methods.find(call_method);
+			auto method_iterator = class_record->class_methods.find("METHOD_"+call_method);
 			if(method_iterator == class_record->class_methods.end()){
 				std::cout << "Line " << this->lineno << ": Class method " << call_method << " is not declared." << std::endl;
 				return "METHOD_NOEXIST";
@@ -1354,8 +1359,7 @@ class NewObjectNode: public BaseNode {
 
 	std::string evaluate(SymbolTable* symbol_table){
 		auto it = children.begin();
-
-		Record* id_record = symbol_table->root->lookup((*it)->evaluate(symbol_table));
+		Record* id_record = symbol_table->root->lookup("CLASS_"+(*it)->value);
 
 		if (id_record->record_type == "NULL"){
 			// Below not needed since if class does not exist, then the evaluate at 3 lines above would print that identifier is not declared.
@@ -1474,17 +1478,63 @@ class IdNode: public BaseNode {
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
+
+	//very different from evaluate. It does not print. If something change in evaluate, change it here too to keep functionallity
+	std::string evaluate_no_print(SymbolTable* symbol_table){
+		auto it = children.begin();
+		Record* id_record;
+
+		id_record = symbol_table->lookup("VARIABLE_"+this->value);
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("CLASS_VAR_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("PARAMETER_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("METHOD_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("CLASS_"+this->value);
+		}
+		
+		if(id_record->record_type == "NULL") {
+			return "ID_NOEXIST";
+		}
+		else {
+			if(id_record->type == "TYPE_CUSTOM"){
+				return id_record->identifier;
+			}
+			else {
+				return id_record->type;
+			}
+		} 
+	}
+
 	
 	std::string evaluate(SymbolTable* symbol_table){
 		auto it = children.begin();
-		Record* id_record = symbol_table->lookup(this->value);
+		Record* id_record;
+
+		id_record = symbol_table->lookup("VARIABLE_"+this->value);
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("CLASS_VAR_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("PARAMETER_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("METHOD_"+this->value);
+		}
+		if (id_record->record_type == "NULL"){
+			id_record = symbol_table->lookup("CLASS_"+this->value);
+		}
 		
 		if(id_record->record_type == "NULL") {
 			std::cout << "Line " << this->lineno << ": Identifier " << this->value << " is not declared." << "\n";
 			return "ID_NOEXIST";
 		}
 		else {
-
 			if(id_record->type == "TYPE_CUSTOM"){
 				return id_record->identifier;
 			}
