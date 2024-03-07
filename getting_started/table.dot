@@ -1,19 +1,19 @@
 digraph {
-n0 [label="Identifier: DuplicateIdentifiers, Record: CLASS, Type: DuplicateIdentifiers\nIdentifier: MyClass, Record: CLASS, Type: MyClass\n"];
+n0 [label="Identifier: A, Record: CLASS, Type: A\nIdentifier: B, Record: CLASS, Type: B\nIdentifier: SemanticDuplicateIdentifiersSeparateScope, Record: CLASS, Type: SemanticDuplicateIdentifiersSeparateScope\n"];
 n1 [label="Identifier: main, Record: METHOD, Type: TYPE_VOID\n"];
 n2 [label="Identifier: a, Record: VARIABLE, Type: TYPE_STRING_LIST\n"];
 n1 -> n2
 n0 -> n1
-n3 [label="Identifier: THIS, Record: VARIABLE, Type: DuplicateIdentifiers\nIdentifier: a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: func, Record: METHOD, Type: TYPE_BOOLEAN\n"];
-n4 [label=""];
+n3 [label="Identifier: A, Record: VARIABLE, Type: TYPE_INT\nIdentifier: B, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: A\n"];
+n4 [label="Identifier: A, Record: VARIABLE, Type: TYPE_INT\n"];
 n3 -> n4
-n5 [label=""];
+n5 [label="Identifier: B, Record: VARIABLE, Type: TYPE_INT\n"];
 n3 -> n5
 n0 -> n3
-n6 [label="Identifier: Pen, Record: METHOD, Type: TYPE_INT\nIdentifier: Pen2, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\nIdentifier: b, Record: VARIABLE, Type: TYPE_BOOLEAN\n"];
-n7 [label="Identifier: param, Record: VARIABLE, Type: TYPE_INT\n"];
+n6 [label="Identifier: A, Record: VARIABLE, Type: TYPE_INT\nIdentifier: B, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: B\n"];
+n7 [label="Identifier: A, Record: VARIABLE, Type: TYPE_INT\n"];
 n6 -> n7
-n8 [label="Identifier: param, Record: VARIABLE, Type: TYPE_INT\n"];
+n8 [label="Identifier: B, Record: VARIABLE, Type: TYPE_INT\n"];
 n6 -> n8
 n0 -> n6
 }

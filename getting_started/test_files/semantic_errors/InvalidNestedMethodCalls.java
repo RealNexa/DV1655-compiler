@@ -31,6 +31,7 @@ class A {
         a = this.a5(b, a, ia); // @error - semantic (invalid number of parameters)
         a = this.a5(a, b, ia, new InvalidNestedMethodCalls()); // @error - semantic (invalid order of parameters)
         a = this.a5(b, new A().a3(), ia, new InvalidNestedMethodCalls()); // @error - semantic (invalid 2nd parameter)
+        a = a.a2().a2();
         // .. try more of these
 
         int ret;

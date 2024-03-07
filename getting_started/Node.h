@@ -55,8 +55,7 @@ class BaseNode {
 		  *outStream << "n" << id << " -> n" << (*i)->id << endl;
 	  }
   }
-
-
+  
 };
 
 class Node {
@@ -229,7 +228,7 @@ class ClassDeclarationNode: public BaseNode {
 
 		Record* _record = symbol_table->root->lookup((*it)->value);
 		if (_record->record_type != "NULL") {
-			std::cout << "Class " << (*it)->value << " is duplicate. Line: " << this->lineno << std::endl;
+			std::cout << "Line " << this->lineno << ": Class " << (*it)->value << " is already declared." << std::endl;
 		}
 
 		Class *non_main_class = new Class((*it)->value);
@@ -300,17 +299,20 @@ class TypeIdNode: public BaseNode {
 			type = children.front()->value;
 		}
 
-		if (symbol_table->current_class->lookupVariable(identifier)) {
-			std::cout << "Class variable " << identifier << " is duplicate. Line: " << this->lineno << std::endl;
+		// Checks if variable is already declared as class variable. Only check if we are declaring class variables
+		if(symbol_table->current_method == nullptr){
+			if (symbol_table->current_class->lookupVariable(identifier)) {
+				std::cout << "Line " << this->lineno << ": Class variable " << identifier << " is already declared."<< std::endl;
+			}
 		}
 
 		// Checks if we are in a method body and NOT a class var declaration
 		if(symbol_table->current_method != nullptr) {
 			if (symbol_table->current_method->lookupParameterVariable(identifier)){
-				std::cout << "Variable " << identifier << " is duplicate of parameter. Line: " << this->lineno << std::endl;
+				std::cout << "Line " << this->lineno << ": Variable " << identifier << " is already declared as parameter." << std::endl;
 			}
 			if (symbol_table->current_method->lookupVariable(identifier)) {
-				std::cout << "Variable " << identifier << " is duplicate. Line: " << this->lineno << std::endl;
+				std::cout << "Line " << this->lineno << ": Variable " << identifier << " is already declared in method body." << std::endl;
 			}
 		}
 		else {
@@ -369,7 +371,7 @@ class MethodDeclarationNode: public BaseNode {
 		std::string method_name = (*it)->value;
 
 		if (symbol_table->current_class->lookupMethod(method_name)) {
-			std::cout << "Method " << method_name << " is duplicate. Line: " << this->lineno << std::endl;
+			std::cout << "Line " << this->lineno << ": Method " << method_name << " is already declared in class." << std::endl;
 		}
 
 		Method* _method = new Method(type, method_name);
@@ -389,14 +391,14 @@ class MethodDeclarationNode: public BaseNode {
 
 	void semanticAnalysis(SymbolTable* symbol_table) {
 		symbol_table->enter_scope();
-		//symbol_table->print_current_scope();
+		
 		auto it = children.begin();
 		std::string method_type = (*it)->evaluate(symbol_table);
 		
 		it++; it++; it++; it++;
 		std::string method_return_type = (*it)->evaluate(symbol_table);
 		if (method_type != method_return_type) {
-			std::cout << "Method return type mismatch. Line: " << this->lineno << "\n"; 
+			std::cout << "Line " << this->lineno << ": Method return type mismatch. Expected: " << method_type << "; Got: " << method_return_type << "." << "\n"; 
 		}
 
 		it = children.begin();
@@ -445,7 +447,7 @@ class ParameterNode: public BaseNode {
 
 		// Check parameter duplicates
 		if(symbol_table->current_method->lookupParameterVariable(identifier)) {
-			std::cout << "Parameter " << identifier << " is duplicate. Line: " << this->lineno << std::endl;
+			std::cout << "Line " << this->lineno << ": Parameter " << identifier << " is already declared." << std::endl;
 		}
 		// Checks if parameter is duplicate of class variable
 		// if(symbol_table->current_class->lookupVariable(identifier)) {
@@ -479,7 +481,7 @@ class BodyNode: public BaseNode {
 				std::string type = (*it)->children.front()->type;
 				std::string identifier = (*it)->children.back()->value;
 				if (type == "TYPE_CUSTOM") {
-					type = children.front()->value;
+					type = (*it)->children.front()->value;
 				}
 
 				Variable* _variable = new Variable(identifier, type);
@@ -576,7 +578,7 @@ class TypeCustomNode: public BaseNode {
 		if (this->type == "TYPE_CUSTOM"){
 			Record* _record = symbol_table->root->lookup(this->value);
 			if (_record->record_type == "NULL"){
-				std::cout << "Type" << this->value << " doesn't exist. Line: " << this->lineno << std::endl;
+				std::cout << "Line " << this->lineno << ": Unknown type " << this->value << " is not declared." << std::endl;
 			}
 		}
 	}
@@ -604,7 +606,7 @@ class IfNode: public BaseNode {
 
 		std::string if_type = (*it)->evaluate(symbol_table);
 		if(if_type != "TYPE_BOOLEAN") {
-			std::cout << "If statement is not boolean. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": If expression does not evaluate to TYPE_BOOl."<< "\n";
 		}
 
 		it++;
@@ -631,7 +633,7 @@ class WhileNode: public BaseNode {
 
 		std::string if_type = (*it)->evaluate(symbol_table);
 		if(if_type != "TYPE_BOOLEAN") {
-			std::cout << "While statement is not boolean. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": While expression does not evaluate to TYPE_BOOL." << "\n";
 		}
 
 		it++;
@@ -683,7 +685,7 @@ class IdAssignNode: public BaseNode {
 		// 	std::cout << "Identifier: " << id << " not declared in current scope. Line: " << this->lineno << "\n";
 		// }
 		if ((lookup->type != assign_type) || (assign_type == "ID_NOEXIST")) {
-			std::cout << "identifier: " << id << " doesn't match assign type. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Identifier: " << id << " doesn't match assign type." << "\n";
 		}
 	}
 };
@@ -712,16 +714,16 @@ class ListAssignNode: public BaseNode {
 		Record* lookup = symbol_table->lookup(id);
 
 		if (lookup->record_type == "NULL") {
-			std::cout << "Identifier: " << id << " not declared in current scope. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Identifier: " << id << " not declared in scope." << "\n";
 		}
 		else if (lookup->type != "TYPE_INT_LIST") {
-			std::cout << "Identifier: " << id << " doesn't match assign type. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Identifier: " << id << " doesn't match assign type." << "\n";
 		}
 		else if (index_type != "TYPE_INT"){
-			std::cout << "Index on identifier: " << id << " is not INT. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Index of identifier: " << id << " does not evaluate to TYPE_INT." << "\n";
 		}
 		else if (assign_type != "TYPE_INT") {
-			std::cout << "Expression on identifier: " << id << " is not INT. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Expression on identifier: " << id << " does not evaluate to TYPE_INT." << "\n";
 		}
 	}
 };
@@ -800,7 +802,7 @@ class AddExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in add expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in ADD expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -833,7 +835,7 @@ class SubExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in sub expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in SUB expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -864,7 +866,7 @@ class MultExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in mult expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in MULT expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -896,7 +898,7 @@ class DivExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in div expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in DIV expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -929,7 +931,7 @@ class LogicAndExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_BOOLEAN" || rhs_type != "TYPE_BOOLEAN") {
-			std::cout << "Type mismatch in logicAND expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in AND expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -962,7 +964,7 @@ class LogicOrExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_BOOLEAN" || rhs_type != "TYPE_BOOLEAN") {
-			std::cout << "Type mismatch in logicOR expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in OR expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -995,7 +997,7 @@ class LtExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in LT expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in LT expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -1028,7 +1030,7 @@ class GtExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != "TYPE_INT" || rhs_type != "TYPE_INT") {
-			std::cout << "Type mismatch in GT expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in GT expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -1061,7 +1063,7 @@ class EqualExpressionNode: public BaseNode {
 		std::string rhs_type = (*it)->evaluate(symbol_table);
 
 		if (lhs_type != rhs_type) {
-			std::cout << "Type mismatch in EQUAL expression. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Type mismatch in EQUAL expression." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -1099,11 +1101,11 @@ class LBRBExpressionNode: public BaseNode {
 			return "ID_NOEXIST";
 		}
 		else if (id_type != "TYPE_INT_LIST"){
-			std::cout << "Type is not INT LIST. Line: " << this->lineno << std::endl;			
+			std::cout << "Line " << this->lineno << ": Type is not TYPE_INT_LIST." << std::endl;			
 			return "TYPE_MISMATCH";
 		}
 		else if (bracket_expression != "TYPE_INT"){
-			std::cout << "Type is not INT. Line: " << this->lineno << std::endl;			
+			std::cout << "Line " << this->lineno << ": Index is not of type TYPE_INT." << std::endl;			
 			return "TYPE_MISMATCH";
 		}
 		else{
@@ -1138,7 +1140,7 @@ class DotLengthExpressionNode: public BaseNode {
 			return "ID_NOEXIST";
 		}
 		else if (id_type != "TYPE_INT_LIST") {
-			std::cout << "Type is not INT LIST. Line: " << this->lineno << std::endl;			
+			std::cout << "Line " << this->lineno << ": Type is not TYPE_INT_LIST." << std::endl;			
 			return "TYPE_MISMATCH";
 		}
 		else{
@@ -1184,20 +1186,19 @@ class MethodCallNode: public BaseNode {
 
 		Class* class_record = dynamic_cast<Class*>(symbol_table->root->lookup(id_type));
 		if (class_record == nullptr) {
-			std::cout << "Class " << id_type << " not defined. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Class " << id_type << " is not declared." << "\n";
 			return "ID_NOEXIST";
 		}
 		else {
-		// TODO REWRITE, SEE INVALIDNESTEDMETHODCALLS :)
 			auto method_iterator = class_record->class_methods.find(call_method);
 			if(method_iterator == class_record->class_methods.end()){
-				std::cout << "Class method " << call_method << " doesn't exist. Line: " << this->lineno << std::endl;
+				std::cout << "Line " << this->lineno << ": Class method " << call_method << " is not declared." << std::endl;
 				return "METHOD_NOEXIST";
 			}
 			else {
 				std::vector<Variable> parameters = method_iterator->second.parameters;
 				if (parameters.size() != arguments.size()) {
-					std::cout << "Size mismatch in method call. Line: " << this->lineno << "\n"; 
+					std::cout << "Line " << this->lineno << ": The number of arguments does not match number of parameters." << "\n"; 
 					return "SIZE_MISMATCH";
 				}
 				else{
@@ -1210,7 +1211,7 @@ class MethodCallNode: public BaseNode {
 						std::string parameter_type = parameter_it->type;
 
 						if (argument_type != parameter_type) {
-							std::cout << "Argument type mismatch. Lineno: " << this->lineno << std::endl;
+							std::cout << "Line " << this->lineno << ": Argument type mismatch. Expected: " << argument_type <<"; Got: " << parameter_type << "."<< std::endl;
 							is_valid = false;
 						}
 						
@@ -1326,14 +1327,13 @@ class NewListNode: public BaseNode {
 		std::string bracket_type = (*it)->evaluate(symbol_table);
 		
 		if (bracket_type != "TYPE_INT"){
-			std::cout << "Type in bracket is not int. Lineno: " << this->lineno << std::endl;
+			std::cout << "Line " << this->lineno << ": Type in bracket is not TYPE_INT." << std::endl;
 			return "TYPE_MISMATCH";
 		}
 		else {
 			return "TYPE_INT_LIST";
 		}
 	}
-
 	void semanticAnalysis(SymbolTable* symbol_Table){
 		return;
 	}
@@ -1358,11 +1358,12 @@ class NewObjectNode: public BaseNode {
 		Record* id_record = symbol_table->root->lookup((*it)->evaluate(symbol_table));
 
 		if (id_record->record_type == "NULL"){
-			std::cout << "Class is not declared. Lineno: " << this->lineno << std::endl;
+			// Below not needed since if class does not exist, then the evaluate at 3 lines above would print that identifier is not declared.
+			// std::cout << "Line: " << this->lineno << ". Class is not declared.." << std::endl;
 			return "ID_NOEXIST";
 		}
 		else if (id_record->record_type != "CLASS") {
-			std::cout << "Class: " << id_record->identifier << "is not declared. Lineno: " << this->lineno << std::endl;
+			std::cout << "Line " << this->lineno << ": Error: " << id_record->identifier << "is of type CLASS." << std::endl;
 			return "TYPE_MISMATCH";
 		}
 		else {
@@ -1392,7 +1393,7 @@ class NotNode: public BaseNode {
 		auto it = children.begin();
 		std::string not_type = (*it)->evaluate(symbol_table);
 		if (not_type != "TYPE_BOOLEAN") {
-			std::cout << "Expression is not a boolean. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Expression does not evaluate to TYPE_BOOLEAN." << "\n";
 			return "TYPE_MISMATCH";
 		}
 		else{
@@ -1479,10 +1480,11 @@ class IdNode: public BaseNode {
 		Record* id_record = symbol_table->lookup(this->value);
 		
 		if(id_record->record_type == "NULL") {
-			std::cout << "Identifier " << this->value << " not declared. Line: " << this->lineno << "\n";
+			std::cout << "Line " << this->lineno << ": Identifier " << this->value << " is not declared." << "\n";
 			return "ID_NOEXIST";
 		}
 		else {
+
 			if(id_record->type == "TYPE_CUSTOM"){
 				return id_record->identifier;
 			}
@@ -1495,6 +1497,5 @@ class IdNode: public BaseNode {
 		return;
 	}
 };
-
 // This is the end of the code. This code is very good and optimized and does not have any memory leaks.
 #endif
