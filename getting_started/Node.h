@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "SymbolTable.h"
+#include "TAC.h"
 
 using namespace std;
 
@@ -22,6 +23,12 @@ class BaseNode {
 	virtual std::string evaluate(SymbolTable*) {
 		return "NULL";
 	}
+	virtual std::string genIR(BBlock* currentBlock) {
+		for(auto it = this->children.begin(); it != this->children.end(); it++) {
+			(*it)->genIR(currentBlock);
+		}
+		return "NULL";
+	};
 
 	void print_tree(int depth=0) {
 		for(int i=0; i<depth; i++)
@@ -133,6 +140,8 @@ class GoalNode: public BaseNode {
 		this->lineno = l;
 	};
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		for(auto it = children.begin(); it != children.end(); it++) {
 			(*it)->execute(symbol_table);
@@ -144,7 +153,6 @@ class GoalNode: public BaseNode {
 			(*it)->semanticAnalysis(symbol_table);
 		}
 	};
-
 };
 
 class MainClassNode: public BaseNode {
@@ -661,6 +669,8 @@ class PrintLnNode: public BaseNode {
 
 class IdAssignNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	IdAssignNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -797,6 +807,8 @@ class AddExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -830,6 +842,8 @@ class SubExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -860,6 +874,8 @@ class MultExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -892,6 +908,8 @@ class DivExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -926,6 +944,8 @@ class LogicAndExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -958,6 +978,8 @@ class LogicOrExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -992,6 +1014,8 @@ class LtExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -1024,6 +1048,8 @@ class GtExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1058,6 +1084,8 @@ class EqualExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -1091,6 +1119,8 @@ class LBRBExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1132,6 +1162,8 @@ class DotLengthExpressionNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+	
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1167,6 +1199,8 @@ class MethodCallNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1248,6 +1282,8 @@ class TrueNode: public BaseNode {
 		this->lineno = l;
 	}
 
+	std::string genIR(BBlock* current_block);
+
 	void execute(SymbolTable* symbol_table) {
 		return;
 	}
@@ -1269,6 +1305,8 @@ class FalseNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1316,6 +1354,8 @@ class ThisNode: public BaseNode {
 
 class NewListNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	NewListNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1347,6 +1387,8 @@ class NewListNode: public BaseNode {
 
 class NewObjectNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	NewObjectNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1383,6 +1425,8 @@ class NewObjectNode: public BaseNode {
 
 class NotNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	NotNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1413,6 +1457,7 @@ class NotNode: public BaseNode {
 
 class NoArgumentsNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
 	NoArgumentsNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1430,6 +1475,8 @@ class NoArgumentsNode: public BaseNode {
 
 class ArgumentsNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	ArgumentsNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1447,6 +1494,8 @@ class ArgumentsNode: public BaseNode {
 
 class IntNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	IntNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1474,6 +1523,8 @@ class IdNode: public BaseNode {
 		this->value = v;
 		this->lineno = l;
 	}
+
+	std::string genIR(BBlock* current_block);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1547,5 +1598,6 @@ class IdNode: public BaseNode {
 		return;
 	}
 };
+
 // This is the end of the code. This code is very good and optimized and does not have any memory leaks.
 #endif

@@ -1,0 +1,9 @@
+digraph {
+graph [splines=ortho]
+node [shape=box]
+ENTRY [label="ENTRY\n\n_t0 := MyClass new 
+_t3 := j - k
+_t2 := a  _t3
+_t1 := 2 * _t2
+"];
+}

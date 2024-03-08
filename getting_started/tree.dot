@@ -7,297 +7,83 @@ n3 [label="ID:a"];
 n1 -> n3
 n4 [label="SCOPE:"];
 n5 [label="PRINTLN:"];
-n6 [label="METHOD_CALL:"];
-n7 [label="NEW_OBJECT:"];
-n8 [label="ID:MyClass"];
-n7 -> n8
+n6 [label="NEW_OBJECT:"];
+n7 [label="ID:MyClass"];
 n6 -> n7
-n9 [label="ID:func"];
-n6 -> n9
-n10 [label="NO_ARGUMENTS:"];
-n6 -> n10
 n5 -> n6
 n4 -> n5
 n1 -> n4
 n0 -> n1
-n11 [label="NON_MAIN_CLASSES:"];
-n12 [label="CLASS_DECLARATION:"];
-n13 [label="ID:MyClass"];
+n8 [label="NON_MAIN_CLASSES:"];
+n9 [label="CLASS_DECLARATION:"];
+n10 [label="ID:MyClass"];
+n9 -> n10
+n11 [label="VAR_DECLARATIONS:"];
+n12 [label="TYPEID:"];
+n13 [label="TYPE_INT:"];
 n12 -> n13
-n14 [label="VAR_DECLARATIONS:"];
+n14 [label="ID:x"];
+n12 -> n14
+n11 -> n12
 n15 [label="TYPEID:"];
-n16 [label="TYPE_CUSTOM:Element"];
+n16 [label="TYPE_INT:"];
 n15 -> n16
-n17 [label="ID:x"];
+n17 [label="ID:y"];
 n15 -> n17
-n14 -> n15
+n11 -> n15
 n18 [label="TYPEID:"];
-n19 [label="TYPE_INT:"];
+n19 [label="TYPE_INT_LIST:"];
 n18 -> n19
 n20 [label="ID:a"];
 n18 -> n20
-n14 -> n18
+n11 -> n18
 n21 [label="TYPEID:"];
-n22 [label="TYPE_BOOLEAN:"];
+n22 [label="TYPE_INT:"];
 n21 -> n22
-n23 [label="ID:c"];
+n23 [label="ID:j"];
 n21 -> n23
-n14 -> n21
+n11 -> n21
 n24 [label="TYPEID:"];
-n25 [label="TYPE_BOOLEAN:"];
+n25 [label="TYPE_INT:"];
 n24 -> n25
-n26 [label="ID:d"];
+n26 [label="ID:k"];
 n24 -> n26
-n14 -> n24
-n27 [label="TYPEID:"];
-n28 [label="TYPE_INT_LIST:"];
-n27 -> n28
-n29 [label="ID:e"];
-n27 -> n29
-n14 -> n27
-n12 -> n14
-n30 [label="METHOD_DECLARATIONS:"];
-n31 [label="METHOD_DECLARATION:"];
-n32 [label="TYPE_INT:"];
-n31 -> n32
-n33 [label="ID:func"];
-n31 -> n33
-n34 [label="PARAMETERS:"];
-n31 -> n34
-n35 [label="BODY:"];
-n36 [label="TYPEID:"];
-n37 [label="TYPE_INT_LIST:"];
+n11 -> n24
+n9 -> n11
+n27 [label="METHOD_DECLARATIONS:"];
+n28 [label="METHOD_DECLARATION:"];
+n29 [label="TYPE_INT:"];
+n28 -> n29
+n30 [label="ID:hello"];
+n28 -> n30
+n31 [label="PARAMETERS:"];
+n28 -> n31
+n32 [label="BODY:"];
+n33 [label="LISTASSIGN:"];
+n34 [label="ID:a"];
+n33 -> n34
+n35 [label="TYPE_INT:3"];
+n33 -> n35
+n36 [label="MultExpression:"];
+n37 [label="TYPE_INT:2"];
 n36 -> n37
-n38 [label="ID:newVar"];
+n38 [label="LBRBExpression:"];
+n39 [label="ID:a"];
+n38 -> n39
+n40 [label="SubExpression:"];
+n41 [label="ID:j"];
+n40 -> n41
+n42 [label="ID:k"];
+n40 -> n42
+n38 -> n40
 n36 -> n38
-n35 -> n36
-n39 [label="IDASSIGN:"];
-n40 [label="ID:x"];
-n39 -> n40
-n41 [label="NEW_OBJECT:"];
-n42 [label="ID:element"];
-n41 -> n42
-n39 -> n41
-n35 -> n39
-n43 [label="IDASSIGN:"];
-n44 [label="ID:c"];
-n43 -> n44
-n45 [label="NEW_OBJECT:"];
-n46 [label="ID:Element"];
-n45 -> n46
-n43 -> n45
-n35 -> n43
-n47 [label="IDASSIGN:"];
-n48 [label="ID:a"];
-n47 -> n48
-n49 [label="MultExpression:"];
-n50 [label="TYPE_INT:2"];
-n49 -> n50
-n51 [label="LBRBExpression:"];
-n52 [label="ID:e"];
-n51 -> n52
-n53 [label="MultExpression:"];
-n54 [label="TYPE_INT:3"];
-n53 -> n54
-n55 [label="TYPE_INT:5"];
-n53 -> n55
-n51 -> n53
-n49 -> n51
-n47 -> n49
-n35 -> n47
-n56 [label="LISTASSIGN:"];
-n57 [label="ID:newVar"];
-n56 -> n57
-n58 [label="TYPE_INT:3"];
-n56 -> n58
-n59 [label="TYPE_INT:0"];
-n56 -> n59
-n35 -> n56
-n60 [label="IDASSIGN:"];
-n61 [label="ID:a"];
-n60 -> n61
-n62 [label="DOTLENGTHExpression:"];
-n63 [label="ID:e"];
-n62 -> n63
-n60 -> n62
-n35 -> n60
-n64 [label="IDASSIGN:"];
-n65 [label="ID:a"];
-n64 -> n65
-n66 [label="DOTLENGTHExpression:"];
-n67 [label="LBRBExpression:"];
-n68 [label="ID:e"];
-n67 -> n68
-n69 [label="TYPE_INT:1"];
-n67 -> n69
-n66 -> n67
-n64 -> n66
-n35 -> n64
-n70 [label="IDASSIGN:"];
-n71 [label="ID:x"];
-n70 -> n71
-n72 [label="DOTLENGTHExpression:"];
-n73 [label="ID:e"];
-n72 -> n73
-n70 -> n72
-n35 -> n70
-n74 [label="IDASSIGN:"];
-n75 [label="ID:x"];
-n74 -> n75
-n76 [label="NEW_LIST:"];
-n77 [label="TYPE_INT:1"];
-n76 -> n77
-n74 -> n76
-n35 -> n74
-n78 [label="IDASSIGN:"];
-n79 [label="ID:newVar"];
-n78 -> n79
-n80 [label="NEW_LIST:"];
-n81 [label="TRUE:"];
-n80 -> n81
-n78 -> n80
-n35 -> n78
-n82 [label="IDASSIGN:"];
-n83 [label="ID:newVar"];
-n82 -> n83
-n84 [label="NEW_LIST:"];
-n85 [label="TYPE_INT:1"];
-n84 -> n85
-n82 -> n84
-n35 -> n82
-n31 -> n35
-n86 [label="METHOD_CALL:"];
-n87 [label="ID:x"];
-n86 -> n87
-n88 [label="ID:InInt"];
-n86 -> n88
-n89 [label="NO_ARGUMENTS:"];
-n86 -> n89
-n31 -> n86
-n30 -> n31
-n90 [label="METHOD_DECLARATION:"];
-n91 [label="TYPE_INT:"];
-n90 -> n91
-n92 [label="ID:func2"];
-n90 -> n92
-n93 [label="PARAMETERS:"];
-n90 -> n93
-n94 [label="BODY:"];
-n90 -> n94
-n95 [label="METHOD_CALL:"];
-n96 [label="ID:x"];
-n95 -> n96
-n97 [label="ID:InInt"];
-n95 -> n97
-n98 [label="ARGUMENTS:"];
-n99 [label="TYPE_INT:1"];
-n98 -> n99
-n95 -> n98
-n90 -> n95
-n30 -> n90
-n12 -> n30
-n11 -> n12
-n100 [label="CLASS_DECLARATION:"];
-n101 [label="ID:Element"];
-n100 -> n101
-n102 [label="VAR_DECLARATIONS:"];
-n103 [label="TYPEID:"];
-n104 [label="TYPE_INT:"];
-n103 -> n104
-n105 [label="ID:a"];
-n103 -> n105
-n102 -> n103
-n106 [label="TYPEID:"];
-n107 [label="TYPE_BOOLEAN:"];
-n106 -> n107
-n108 [label="ID:b"];
-n106 -> n108
-n102 -> n106
-n109 [label="TYPEID:"];
-n110 [label="TYPE_CUSTOM:Element"];
-n109 -> n110
-n111 [label="ID:c"];
-n109 -> n111
-n102 -> n109
-n100 -> n102
-n112 [label="METHOD_DECLARATIONS:"];
-n113 [label="METHOD_DECLARATION:"];
-n114 [label="TYPE_INT:"];
-n113 -> n114
-n115 [label="ID:InInt"];
-n113 -> n115
-n116 [label="PARAMETERS:"];
-n117 [label="PARAMETER:"];
-n118 [label="TYPE_INT:"];
-n117 -> n118
-n119 [label="ID:x"];
-n117 -> n119
-n116 -> n117
-n113 -> n116
-n120 [label="BODY:"];
-n113 -> n120
-n121 [label="ID:a"];
-n113 -> n121
-n112 -> n113
-n122 [label="METHOD_DECLARATION:"];
-n123 [label="TYPE_INT:"];
-n122 -> n123
-n124 [label="ID:InInt2"];
-n122 -> n124
-n125 [label="PARAMETERS:"];
-n126 [label="PARAMETER:"];
-n127 [label="TYPE_INT:"];
-n126 -> n127
-n128 [label="ID:x"];
-n126 -> n128
-n125 -> n126
-n122 -> n125
-n129 [label="BODY:"];
-n122 -> n129
-n130 [label="AddExpression:"];
-n131 [label="ID:x"];
-n130 -> n131
-n132 [label="TYPE_INT:1"];
-n130 -> n132
-n122 -> n130
-n112 -> n122
-n133 [label="METHOD_DECLARATION:"];
-n134 [label="TYPE_CUSTOM:Element"];
-n133 -> n134
-n135 [label="ID:InClass"];
-n133 -> n135
-n136 [label="PARAMETERS:"];
-n133 -> n136
-n137 [label="BODY:"];
-n133 -> n137
-n138 [label="ID:c"];
-n133 -> n138
-n112 -> n133
-n139 [label="METHOD_DECLARATION:"];
-n140 [label="TYPE_BOOLEAN:"];
-n139 -> n140
-n141 [label="ID:InBool"];
-n139 -> n141
-n142 [label="PARAMETERS:"];
-n139 -> n142
-n143 [label="BODY:"];
-n139 -> n143
-n144 [label="TRUE:"];
-n139 -> n144
-n112 -> n139
-n145 [label="METHOD_DECLARATION:"];
-n146 [label="TYPE_BOOLEAN:"];
-n145 -> n146
-n147 [label="ID:InBool2"];
-n145 -> n147
-n148 [label="PARAMETERS:"];
-n145 -> n148
-n149 [label="BODY:"];
-n145 -> n149
-n150 [label="ID:b"];
-n145 -> n150
-n112 -> n145
-n100 -> n112
-n11 -> n100
-n0 -> n11
+n33 -> n36
+n32 -> n33
+n28 -> n32
+n43 [label="TYPE_INT:1"];
+n28 -> n43
+n27 -> n28
+n9 -> n27
+n8 -> n9
+n0 -> n8
 }

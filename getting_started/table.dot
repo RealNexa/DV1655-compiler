@@ -1,25 +1,11 @@
 digraph {
-n0 [label="Identifier: CLASS_Element, Record: CLASS, Type: Element\nIdentifier: CLASS_LittleTest, Record: CLASS, Type: LittleTest\nIdentifier: CLASS_MyClass, Record: CLASS, Type: MyClass\n"];
+n0 [label="Identifier: CLASS_LittleTest, Record: CLASS, Type: LittleTest\nIdentifier: CLASS_MyClass, Record: CLASS, Type: MyClass\n"];
 n1 [label="Identifier: METHOD_main, Record: METHOD, Type: TYPE_VOID\n"];
 n2 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_STRING_LIST\n"];
 n1 -> n2
 n0 -> n1
-n3 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_c, Record: VARIABLE, Type: TYPE_BOOLEAN\nIdentifier: CLASS_VAR_d, Record: VARIABLE, Type: TYPE_BOOLEAN\nIdentifier: CLASS_VAR_e, Record: VARIABLE, Type: TYPE_INT_LIST\nIdentifier: CLASS_VAR_x, Record: VARIABLE, Type: Element\nIdentifier: METHOD_func, Record: METHOD, Type: TYPE_INT\nIdentifier: METHOD_func2, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\n"];
-n4 [label="Identifier: VARIABLE_newVar, Record: VARIABLE, Type: TYPE_INT_LIST\n"];
+n3 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_INT_LIST\nIdentifier: CLASS_VAR_j, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_k, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_x, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_y, Record: VARIABLE, Type: TYPE_INT\nIdentifier: METHOD_hello, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\n"];
+n4 [label=""];
 n3 -> n4
-n5 [label=""];
-n3 -> n5
 n0 -> n3
-n6 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_b, Record: VARIABLE, Type: TYPE_BOOLEAN\nIdentifier: CLASS_VAR_c, Record: VARIABLE, Type: Element\nIdentifier: METHOD_InBool, Record: METHOD, Type: TYPE_BOOLEAN\nIdentifier: METHOD_InBool2, Record: METHOD, Type: TYPE_BOOLEAN\nIdentifier: METHOD_InClass, Record: METHOD, Type: Element\nIdentifier: METHOD_InInt, Record: METHOD, Type: TYPE_INT\nIdentifier: METHOD_InInt2, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: Element\n"];
-n7 [label="Identifier: PARAMETER_x, Record: VARIABLE, Type: TYPE_INT\n"];
-n6 -> n7
-n8 [label="Identifier: PARAMETER_x, Record: VARIABLE, Type: TYPE_INT\n"];
-n6 -> n8
-n9 [label=""];
-n6 -> n9
-n10 [label=""];
-n6 -> n10
-n11 [label=""];
-n6 -> n11
-n0 -> n6
 }

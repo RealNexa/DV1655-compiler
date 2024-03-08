@@ -1,6 +1,8 @@
 #include <iostream>
 #include "parser.tab.hh"
 #include "SymbolTable.h"
+#include "TAC.h"
+#include "CFG.h"
 
 extern BaseNode *root;
 extern FILE *yyin;
@@ -85,6 +87,13 @@ int main(int argc, char **argv)
 			root->semanticAnalysis(symbol_table);
 
 
+			// IR code generation
+			BBlock* entry = new BBlock();
+			entry->name = "ENTRY";
+			
+			root->genIR(entry);
+
+			generate_CFG(entry);
 		}
 	}
 
