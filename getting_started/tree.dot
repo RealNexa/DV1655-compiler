@@ -22,68 +22,98 @@ n11 [label="VAR_DECLARATIONS:"];
 n12 [label="TYPEID:"];
 n13 [label="TYPE_INT:"];
 n12 -> n13
-n14 [label="ID:x"];
+n14 [label="ID:a"];
 n12 -> n14
 n11 -> n12
 n15 [label="TYPEID:"];
 n16 [label="TYPE_INT:"];
 n15 -> n16
-n17 [label="ID:y"];
+n17 [label="ID:b"];
 n15 -> n17
 n11 -> n15
 n18 [label="TYPEID:"];
-n19 [label="TYPE_INT_LIST:"];
+n19 [label="TYPE_INT:"];
 n18 -> n19
-n20 [label="ID:a"];
+n20 [label="ID:c"];
 n18 -> n20
 n11 -> n18
 n21 [label="TYPEID:"];
 n22 [label="TYPE_INT:"];
 n21 -> n22
-n23 [label="ID:j"];
+n23 [label="ID:x"];
 n21 -> n23
 n11 -> n21
-n24 [label="TYPEID:"];
-n25 [label="TYPE_INT:"];
-n24 -> n25
-n26 [label="ID:k"];
-n24 -> n26
-n11 -> n24
 n9 -> n11
-n27 [label="METHOD_DECLARATIONS:"];
-n28 [label="METHOD_DECLARATION:"];
-n29 [label="TYPE_INT:"];
-n28 -> n29
-n30 [label="ID:hello"];
-n28 -> n30
-n31 [label="PARAMETERS:"];
-n28 -> n31
-n32 [label="BODY:"];
-n33 [label="LISTASSIGN:"];
-n34 [label="ID:a"];
+n24 [label="METHOD_DECLARATIONS:"];
+n25 [label="METHOD_DECLARATION:"];
+n26 [label="TYPE_INT:"];
+n25 -> n26
+n27 [label="ID:hello"];
+n25 -> n27
+n28 [label="PARAMETERS:"];
+n25 -> n28
+n29 [label="BODY:"];
+n30 [label="IDASSIGN:"];
+n31 [label="ID:a"];
+n30 -> n31
+n32 [label="TYPE_INT:0"];
+n30 -> n32
+n29 -> n30
+n33 [label="IDASSIGN:"];
+n34 [label="ID:b"];
 n33 -> n34
-n35 [label="TYPE_INT:3"];
+n35 [label="TYPE_INT:10"];
 n33 -> n35
-n36 [label="MultExpression:"];
-n37 [label="TYPE_INT:2"];
+n29 -> n33
+n36 [label="IDASSIGN:"];
+n37 [label="ID:c"];
 n36 -> n37
-n38 [label="LBRBExpression:"];
-n39 [label="ID:a"];
-n38 -> n39
-n40 [label="SubExpression:"];
-n41 [label="ID:j"];
-n40 -> n41
-n42 [label="ID:k"];
-n40 -> n42
-n38 -> n40
+n38 [label="TYPE_INT:20"];
 n36 -> n38
-n33 -> n36
-n32 -> n33
-n28 -> n32
-n43 [label="TYPE_INT:1"];
-n28 -> n43
-n27 -> n28
-n9 -> n27
+n29 -> n36
+n39 [label="IDASSIGN:"];
+n40 [label="ID:x"];
+n39 -> n40
+n41 [label="TYPE_INT:5"];
+n39 -> n41
+n29 -> n39
+n42 [label="IF:"];
+n43 [label="LTExpression:"];
+n44 [label="ID:x"];
+n43 -> n44
+n45 [label="TYPE_INT:1"];
+n43 -> n45
+n42 -> n43
+n46 [label="SCOPE:"];
+n47 [label="IDASSIGN:"];
+n48 [label="ID:a"];
+n47 -> n48
+n49 [label="ID:b"];
+n47 -> n49
+n46 -> n47
+n42 -> n46
+n50 [label="ELSE:"];
+n51 [label="SCOPE:"];
+n52 [label="IDASSIGN:"];
+n53 [label="ID:a"];
+n52 -> n53
+n54 [label="ID:c"];
+n52 -> n54
+n51 -> n52
+n50 -> n51
+n42 -> n50
+n29 -> n42
+n55 [label="IDASSIGN:"];
+n56 [label="ID:x"];
+n55 -> n56
+n57 [label="TYPE_INT:100"];
+n55 -> n57
+n29 -> n55
+n25 -> n29
+n58 [label="TYPE_INT:1"];
+n25 -> n58
+n24 -> n25
+n9 -> n24
 n8 -> n9
 n0 -> n8
 }

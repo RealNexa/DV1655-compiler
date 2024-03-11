@@ -6,14 +6,26 @@ public class LittleTest {
 
 class MyClass {
 
+    int a;
+    int b;
+    int c;
     int x;
-    int y;
-    int[] a;
-    int j;
-    int k;
 
     public int hello(){
-        a[3] = 2*a[j-k];
+        a = 0;
+        b = 10;
+        c = 20;
+
+        x = 5;
+
+        if (x < 1) {
+            a = b;
+        }
+        else {
+            a = c;
+        }
+
+        x = 100;
 
         return 1;
     }

@@ -2,8 +2,20 @@ digraph {
 graph [splines=ortho]
 node [shape=box]
 ENTRY [label="ENTRY\n\n_t0 := MyClass new 
-_t3 := j - k
-_t2 := a  _t3
-_t1 := 2 * _t2
+a := 0  
+b := 10  
+c := 20  
+x := 5  
+_t1 := x < 1
+x := 100  
 "];
+ENTRY->block_1 [xlabel="true"];
+block_1 [label="block_1\n\na := b  
+"];
+block_1->block_3 [xlabel="true"];
+block_3 [label="block_3\n\n"];
+ENTRY->block_2 [xlabel="false"];
+block_2 [label="block_2\n\na := c  
+"];
+block_2->block_3 [xlabel="true"];
 }

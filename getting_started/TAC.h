@@ -126,12 +126,16 @@ class BBlock {
     private:
     int variable_count = 0;
     public:
+    static int block_count;
     std::string name;
     std::list<Tac> tacInstructions;
     Tac condition;
     BBlock* trueExit;
     BBlock* falseExit;  
-    BBlock() : trueExit(nullptr), falseExit(nullptr) {}
+    BBlock() : trueExit(nullptr), falseExit(nullptr) {
+        this->name = "block_" + std::to_string(BBlock::block_count);
+        block_count++;
+    }
 
     std::string genName() {
         return "_t" + std::to_string(variable_count++);
@@ -145,6 +149,6 @@ class BBlock {
         return ret_string;
     }
 };
-
+inline int BBlock::block_count = 0;     // cuz C++
 
 #endif

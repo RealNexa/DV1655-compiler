@@ -598,6 +598,8 @@ class TypeCustomNode: public BaseNode {
 
 class IfNode: public BaseNode {
 	public:
+	std::string genIR(BBlock* current_block);
+
 	IfNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;

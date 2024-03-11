@@ -196,3 +196,27 @@ std::string IntNode::genIR(BBlock* current_block){
     return this->value;
 }
 
+std::string IfNode::genIR(BBlock* current_block) {
+    auto it = children.begin();  
+    
+    std::string name = (*it)->genIR(current_block);
+    it++;
+    
+    BBlock* tBlock = new BBlock();
+    (*it)->genIR(tBlock);
+    current_block->trueExit = tBlock;
+    it++;
+
+    BBlock* fBlock = new BBlock();
+    (*it)->genIR(fBlock);
+    current_block->falseExit = fBlock;
+    
+    BBlock* jBlock = new BBlock();
+    tBlock->trueExit = jBlock;
+    fBlock->trueExit = jBlock;
+
+    current_block = jBlock;
+
+    return name;    
+}
+
