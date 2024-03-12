@@ -4,7 +4,7 @@ n1 [label="Identifier: METHOD_main, Record: METHOD, Type: TYPE_VOID\n"];
 n2 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_STRING_LIST\n"];
 n1 -> n2
 n0 -> n1
-n3 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_b, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_c, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_x, Record: VARIABLE, Type: TYPE_INT\nIdentifier: METHOD_hello, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\n"];
+n3 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_b, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_c, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_list, Record: VARIABLE, Type: TYPE_INT_LIST\nIdentifier: CLASS_VAR_q, Record: VARIABLE, Type: TYPE_INT\nIdentifier: CLASS_VAR_x, Record: VARIABLE, Type: TYPE_INT\nIdentifier: METHOD_hello, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: MyClass\n"];
 n4 [label=""];
 n3 -> n4
 n0 -> n3

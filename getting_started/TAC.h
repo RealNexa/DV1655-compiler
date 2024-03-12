@@ -44,8 +44,8 @@ class Tac {
         result = value;
     }
 
-    void dump(){
-        std::cout << result << " := " << lhs << " " << op << " " << rhs;
+    virtual std::string get_string() {
+        return result + " := " + lhs + " " + op + " " + rhs;
     }
 
 };
@@ -72,6 +72,9 @@ class ArrayAccess : public Tac {
     public:
     ArrayAccess(std::string _y, std::string _i, std::string _result) : 
     Tac("", _y, _i, _result) {}
+    std::string get_string() {
+        return getResult() + " := " + getLhs() + "[" + getRhs() + "]";
+    }
 };
 
 class New : public Tac {
@@ -120,6 +123,9 @@ class ConditionalJump : public Tac{
     public:
     ConditionalJump(std::string _L, std::string _op, std::string _x) : 
     Tac(_op, _x, "", _L) {}
+    std::string get_string(){
+        return getOp() + " "+ getLhs() + " goto " +  getResult();
+    }
 };
 
 class BBlock {
@@ -128,8 +134,8 @@ class BBlock {
     public:
     static int block_count;
     std::string name;
-    std::list<Tac> tacInstructions;
-    Tac condition;
+    std::list<Tac*> tacInstructions;
+    Tac* condition;
     BBlock* trueExit;
     BBlock* falseExit;  
     BBlock() : trueExit(nullptr), falseExit(nullptr) {
@@ -144,7 +150,7 @@ class BBlock {
     std::string get_print_string() {
         std::string ret_string;
         for(auto it = tacInstructions.begin(); it != tacInstructions.end(); it++) {  
-            ret_string += it->getResult() + " := " + it->getLhs() + " " + it->getOp() + " " + it->getRhs() + "\n";
+            ret_string += (*it)->get_string() + "\n";
         }
         return ret_string;
     }

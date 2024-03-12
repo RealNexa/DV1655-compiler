@@ -11,22 +11,32 @@ class MyClass {
     int c;
     int x;
 
+    int[] list;
+    int q;
+
     public int hello(){
         a = 0;
         b = 10;
         c = 20;
-
-        x = 5;
-
-        if (x < 1) {
-            a = b;
+        x = 0;
+        if (x > 10) {
+            a=2;
+            if(a < 10) {
+                b = 20;
+            }
+            else {
+                c = 30;
+            }
         }
         else {
-            a = c;
+            if(c == 10)
+                c = 20;
+            else
+                c = 1000000000000000000000000000000;
         }
 
-        x = 100;
-
+        x = 100; // ulfs siffra
+        x = 100; // 
         return 1;
     }
 }

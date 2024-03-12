@@ -2,124 +2,124 @@
 #include "TAC.h"
 
 
-std::string GoalNode::genIR(BBlock* current_block) {
+std::string GoalNode::genIR(BBlock** current_block, BBlock** return_block) {
     for(auto it = this->children.begin(); it != this->children.end(); it++) {
         (*it)->genIR(current_block);
     }
     return "NULL";
 }
 
-std::string AddExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string AddExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("+", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("+", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string SubExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string SubExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("-", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("-", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string MultExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string MultExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("*", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("*", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string DivExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string DivExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("/", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("/", lhs_name, rhs_name, name);
+   (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string LogicAndExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string LogicAndExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("&&", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("&&", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string LogicOrExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string LogicOrExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("||", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("||", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string LtExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string LtExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("<", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
-    return name;
+    Expression* in = new Expression("<", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
+    return name; 
 }
 
-std::string GtExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string GtExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression(">", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression(">", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string EqualExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string EqualExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = Expression("==", lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Expression* in = new Expression("==", lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string LBRBExpressionNode::genIR(BBlock* current_block) {
-    std::string name = current_block->genName();
+std::string LBRBExpressionNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = (*current_block)->genName();
     std::string lhs_name = children.front()->genIR(current_block);
     std::string rhs_name = children.back()->genIR(current_block);
 
-    Tac in = ArrayAccess(lhs_name, rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    ArrayAccess* in = new ArrayAccess(lhs_name, rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string DotLengthExpressionNode::genIR(BBlock* current_block){
-    std::string name = current_block->genName();
+std::string DotLengthExpressionNode::genIR(BBlock** current_block, BBlock** return_block){
+    std::string name = (*current_block)->genName();
     std::string rhs_name = children.front()->genIR(current_block);
 
-    Tac in = Length(rhs_name, name);
-    current_block->tacInstructions.push_back(in);
+    Length* in = new Length(rhs_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string MethodCallNode::genIR(BBlock* current_block){
-    std::string name = current_block->genName();
+std::string MethodCallNode::genIR(BBlock** current_block, BBlock** return_block){
+    std::string name = (*current_block)->genName();
     
     auto it = children.begin();
     it++;
@@ -128,95 +128,126 @@ std::string MethodCallNode::genIR(BBlock* current_block){
     std::string n_arguments = std::to_string(this->children.size()); 
     (*it)->genIR(current_block);
 
-    Tac in = MethodCall(function_name, n_arguments, name);
-    current_block->tacInstructions.push_back(in);
+    MethodCall* in = new MethodCall(function_name, n_arguments, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string ArgumentsNode::genIR(BBlock* current_block){
+std::string ArgumentsNode::genIR(BBlock** current_block, BBlock** return_block){
     
     for(auto it = children.begin(); it != children.end(); it++) {
         std::string parameter = (*it)->genIR(current_block);
 
-        Tac in = Parameter(parameter);
-        current_block->tacInstructions.push_back(in);
+        Parameter* in = new Parameter(parameter);
+        (*current_block)->tacInstructions.push_back(in);
     }
     return "NULL";
 }
 
-std::string NewListNode::genIR(BBlock* current_block){
-    std::string name = current_block->genName();
+std::string NewListNode::genIR(BBlock** current_block, BBlock** return_block){
+    std::string name = (*current_block)->genName();
     std::string index = children.front()->genIR(current_block);
-    Tac in = NewArray(index, name);
-    current_block->tacInstructions.push_back(in);
+    NewArray* in = new NewArray(index, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string NewObjectNode::genIR(BBlock* current_block){
-    std::string name = current_block->genName();
+std::string NewObjectNode::genIR(BBlock** current_block, BBlock** return_block){
+    std::string name = (*current_block)->genName();
     std::string object_type = children.front()->genIR(current_block);
-    Tac in = New(object_type, name);
-    current_block->tacInstructions.push_back(in);
+    New* in = new New(object_type, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string NotNode::genIR(BBlock* current_block){
-    std::string name = current_block->genName();
+std::string NotNode::genIR(BBlock** current_block, BBlock** return_block){
+    std::string name = (*current_block)->genName();
     std::string unary_name = children.front()->genIR(current_block);
-    Tac in = UnaryExpression("!", unary_name, name);
-    current_block->tacInstructions.push_back(in);
+    UnaryExpression* in = new UnaryExpression("!", unary_name, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string IdAssignNode::genIR(BBlock* current_block){
+std::string IdAssignNode::genIR(BBlock** current_block, BBlock** return_block){
     std::string name = children.front()->genIR(current_block);
     std::string assign_value = children.back()->genIR(current_block);
-    Tac in = Copy(assign_value, name);
-    current_block->tacInstructions.push_back(in);
+    Copy* in = new Copy(assign_value, name);
+    (*current_block)->tacInstructions.push_back(in);
     return name;
 }
 
-std::string NoArgumentsNode::genIR(BBlock* current_block){
+std::string NoArgumentsNode::genIR(BBlock** current_block, BBlock** return_block){
     return "NULL";
 }
 
-std::string TrueNode::genIR(BBlock* current_block){
+std::string TrueNode::genIR(BBlock** current_block, BBlock** return_block){
     return this->value;
 }
 
-std::string FalseNode::genIR(BBlock* current_block){
+std::string FalseNode::genIR(BBlock** current_block, BBlock** return_block){
+
     return this->value;
 }
 
-std::string IdNode::genIR(BBlock* current_block){
+std::string IdNode::genIR(BBlock** current_block, BBlock** return_block){
     return this->value;
 }
 
-std::string IntNode::genIR(BBlock* current_block){
+std::string IntNode::genIR(BBlock** current_block, BBlock** return_block){
     return this->value;
 }
 
-std::string IfNode::genIR(BBlock* current_block) {
+std::string IfNode::genIR(BBlock** current_block, BBlock** return_block) {
     auto it = children.begin();  
     
     std::string name = (*it)->genIR(current_block);
     it++;
     
     BBlock* tBlock = new BBlock();
-    (*it)->genIR(tBlock);
-    current_block->trueExit = tBlock;
+    (*current_block)->trueExit = tBlock;
+    (*it)->genIR(&tBlock);
     it++;
 
     BBlock* fBlock = new BBlock();
-    (*it)->genIR(fBlock);
-    current_block->falseExit = fBlock;
+    (*current_block)->falseExit = fBlock;
+    (*it)->genIR(&fBlock);
+    ConditionalJump* in = new ConditionalJump(fBlock->name, "iffalse", name);
+    (*current_block)->tacInstructions.push_back(in);
     
     BBlock* jBlock = new BBlock();
     tBlock->trueExit = jBlock;
     fBlock->trueExit = jBlock;
 
-    current_block = jBlock;
+    *current_block = jBlock;
 
     return name;    
+}
+
+std::string WhileNode::genIR(BBlock** current_block, BBlock** return_block) {
+
+    BBlock* hBlock = new BBlock();
+    (*current_block)->trueExit = hBlock;
+    std::string name = children.front()->genIR(&hBlock);
+
+
+    BBlock* bBlock = new BBlock();
+    BBlock* jBlock = new BBlock();
+    
+    ConditionalJump* in = new ConditionalJump(jBlock->name, "iffalse", name);
+    hBlock->tacInstructions.push_back(in);
+
+    hBlock->trueExit = bBlock;
+    hBlock->falseExit = jBlock;
+    bBlock->trueExit = hBlock;
+    
+    children.back()->genIR(&bBlock, &hBlock);
+
+    if (return_block != nullptr){
+        jBlock->trueExit = *return_block;
+    }
+
+    *current_block = jBlock;
+    
+    return name;
 }
 

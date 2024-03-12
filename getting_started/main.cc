@@ -89,11 +89,12 @@ int main(int argc, char **argv)
 
 			// IR code generation
 			BBlock* entry = new BBlock();
+			BBlock* entry_copy = entry;
 			entry->name = "ENTRY";
 			
-			root->genIR(entry);
+			root->genIR(&entry);
 
-			generate_CFG(entry);
+			generate_CFG(entry_copy);
 		}
 	}
 
