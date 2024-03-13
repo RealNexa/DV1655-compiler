@@ -1,179 +1,153 @@
 digraph {
 n0 [label="GOAL:"];
 n1 [label="MAIN_CLASS:"];
-n2 [label="ID:LittleTest"];
+n2 [label="ID:D1"];
 n1 -> n2
 n3 [label="ID:a"];
 n1 -> n3
 n4 [label="SCOPE:"];
 n5 [label="PRINTLN:"];
-n6 [label="NEW_OBJECT:"];
-n7 [label="ID:MyClass"];
+n6 [label="METHOD_CALL:"];
+n7 [label="NEW_OBJECT:"];
+n8 [label="ID:Mult"];
+n7 -> n8
 n6 -> n7
+n9 [label="ID:calcSum"];
+n6 -> n9
+n10 [label="ARGUMENTS:"];
+n11 [label="TYPE_INT:100"];
+n10 -> n11
+n6 -> n10
 n5 -> n6
 n4 -> n5
 n1 -> n4
 n0 -> n1
-n8 [label="NON_MAIN_CLASSES:"];
-n9 [label="CLASS_DECLARATION:"];
-n10 [label="ID:MyClass"];
-n9 -> n10
-n11 [label="VAR_DECLARATIONS:"];
-n12 [label="TYPEID:"];
-n13 [label="TYPE_INT:"];
-n12 -> n13
-n14 [label="ID:a"];
-n12 -> n14
-n11 -> n12
-n15 [label="TYPEID:"];
-n16 [label="TYPE_INT:"];
-n15 -> n16
-n17 [label="ID:b"];
-n15 -> n17
-n11 -> n15
-n18 [label="TYPEID:"];
-n19 [label="TYPE_INT:"];
-n18 -> n19
-n20 [label="ID:c"];
-n18 -> n20
-n11 -> n18
-n21 [label="TYPEID:"];
+n12 [label="NON_MAIN_CLASSES:"];
+n13 [label="CLASS_DECLARATION:"];
+n14 [label="ID:Sum"];
+n13 -> n14
+n15 [label="VAR_DECLARATIONS:"];
+n13 -> n15
+n16 [label="METHOD_DECLARATIONS:"];
+n17 [label="METHOD_DECLARATION:"];
+n18 [label="TYPE_INT:"];
+n17 -> n18
+n19 [label="ID:calcSum"];
+n17 -> n19
+n20 [label="PARAMETERS:"];
+n21 [label="PARAMETER:"];
 n22 [label="TYPE_INT:"];
 n21 -> n22
-n23 [label="ID:x"];
+n23 [label="ID:num"];
 n21 -> n23
-n11 -> n21
-n24 [label="TYPEID:"];
-n25 [label="TYPE_INT_LIST:"];
+n20 -> n21
+n17 -> n20
+n24 [label="BODY:"];
+n25 [label="TYPEID:"];
+n26 [label="TYPE_INT:"];
+n25 -> n26
+n27 [label="ID:sum"];
+n25 -> n27
 n24 -> n25
-n26 [label="ID:list"];
-n24 -> n26
-n11 -> n24
-n27 [label="TYPEID:"];
-n28 [label="TYPE_INT:"];
-n27 -> n28
-n29 [label="ID:q"];
-n27 -> n29
-n11 -> n27
-n9 -> n11
-n30 [label="METHOD_DECLARATIONS:"];
-n31 [label="METHOD_DECLARATION:"];
-n32 [label="TYPE_INT:"];
+n28 [label="IDASSIGN:"];
+n29 [label="ID:sum"];
+n28 -> n29
+n30 [label="TYPE_INT:0"];
+n28 -> n30
+n24 -> n28
+n31 [label="WHILE:"];
+n32 [label="LTExpression:"];
+n33 [label="TYPE_INT:0"];
+n32 -> n33
+n34 [label="ID:num"];
+n32 -> n34
 n31 -> n32
-n33 [label="ID:hello"];
-n31 -> n33
-n34 [label="PARAMETERS:"];
-n31 -> n34
-n35 [label="BODY:"];
+n35 [label="SCOPE:"];
 n36 [label="IDASSIGN:"];
-n37 [label="ID:a"];
+n37 [label="ID:sum"];
 n36 -> n37
-n38 [label="TYPE_INT:0"];
+n38 [label="AddExpression:"];
+n39 [label="ID:sum"];
+n38 -> n39
+n40 [label="ID:num"];
+n38 -> n40
 n36 -> n38
 n35 -> n36
-n39 [label="IDASSIGN:"];
-n40 [label="ID:b"];
-n39 -> n40
-n41 [label="TYPE_INT:10"];
-n39 -> n41
-n35 -> n39
-n42 [label="IDASSIGN:"];
-n43 [label="ID:c"];
-n42 -> n43
-n44 [label="TYPE_INT:20"];
-n42 -> n44
-n35 -> n42
-n45 [label="IDASSIGN:"];
-n46 [label="ID:x"];
-n45 -> n46
-n47 [label="TYPE_INT:0"];
-n45 -> n47
-n35 -> n45
-n48 [label="IF:"];
-n49 [label="GTExpression:"];
-n50 [label="ID:x"];
-n49 -> n50
-n51 [label="TYPE_INT:10"];
-n49 -> n51
-n48 -> n49
-n52 [label="SCOPE:"];
-n53 [label="IDASSIGN:"];
-n54 [label="ID:a"];
-n53 -> n54
-n55 [label="TYPE_INT:2"];
-n53 -> n55
-n52 -> n53
-n56 [label="IF:"];
-n57 [label="LTExpression:"];
-n58 [label="ID:a"];
-n57 -> n58
-n59 [label="TYPE_INT:10"];
-n57 -> n59
-n56 -> n57
-n60 [label="SCOPE:"];
-n61 [label="IDASSIGN:"];
-n62 [label="ID:b"];
-n61 -> n62
-n63 [label="TYPE_INT:20"];
-n61 -> n63
-n60 -> n61
-n56 -> n60
-n64 [label="ELSE:"];
-n65 [label="SCOPE:"];
-n66 [label="IDASSIGN:"];
-n67 [label="ID:c"];
-n66 -> n67
-n68 [label="TYPE_INT:30"];
-n66 -> n68
-n65 -> n66
-n64 -> n65
-n56 -> n64
-n52 -> n56
-n48 -> n52
-n69 [label="ELSE:"];
-n70 [label="SCOPE:"];
-n71 [label="IF:"];
-n72 [label="EQUALExpression:"];
-n73 [label="ID:c"];
-n72 -> n73
-n74 [label="TYPE_INT:10"];
-n72 -> n74
-n71 -> n72
-n75 [label="IDASSIGN:"];
-n76 [label="ID:c"];
-n75 -> n76
-n77 [label="TYPE_INT:20"];
-n75 -> n77
-n71 -> n75
-n78 [label="ELSE:"];
-n79 [label="IDASSIGN:"];
-n80 [label="ID:c"];
-n79 -> n80
-n81 [label="TYPE_INT:1000000000000000000000000000000"];
-n79 -> n81
-n78 -> n79
-n71 -> n78
-n70 -> n71
-n69 -> n70
-n48 -> n69
-n35 -> n48
-n82 [label="IDASSIGN:"];
-n83 [label="ID:x"];
-n82 -> n83
-n84 [label="TYPE_INT:100"];
-n82 -> n84
-n35 -> n82
-n85 [label="IDASSIGN:"];
-n86 [label="ID:x"];
-n85 -> n86
-n87 [label="TYPE_INT:100"];
-n85 -> n87
-n35 -> n85
+n41 [label="IDASSIGN:"];
+n42 [label="ID:num"];
+n41 -> n42
+n43 [label="SubExpression:"];
+n44 [label="ID:num"];
+n43 -> n44
+n45 [label="TYPE_INT:1"];
+n43 -> n45
+n41 -> n43
+n35 -> n41
 n31 -> n35
-n88 [label="TYPE_INT:1"];
-n31 -> n88
-n30 -> n31
-n9 -> n30
-n8 -> n9
-n0 -> n8
+n24 -> n31
+n46 [label="TYPEID:"];
+n47 [label="TYPE_CUSTOM:Mult"];
+n46 -> n47
+n48 [label="ID:m"];
+n46 -> n48
+n24 -> n46
+n49 [label="IDASSIGN:"];
+n50 [label="ID:sum"];
+n49 -> n50
+n51 [label="METHOD_CALL:"];
+n52 [label="THIS:"];
+n51 -> n52
+n53 [label="ID:calcSum"];
+n51 -> n53
+n54 [label="ARGUMENTS:"];
+n55 [label="ID:sum"];
+n54 -> n55
+n51 -> n54
+n49 -> n51
+n24 -> n49
+n17 -> n24
+n56 [label="ID:sum"];
+n17 -> n56
+n16 -> n17
+n13 -> n16
+n12 -> n13
+n57 [label="CLASS_DECLARATION:"];
+n58 [label="ID:Mult"];
+n57 -> n58
+n59 [label="VAR_DECLARATIONS:"];
+n57 -> n59
+n60 [label="METHOD_DECLARATIONS:"];
+n61 [label="METHOD_DECLARATION:"];
+n62 [label="TYPE_INT:"];
+n61 -> n62
+n63 [label="ID:calcSum"];
+n61 -> n63
+n64 [label="PARAMETERS:"];
+n65 [label="PARAMETER:"];
+n66 [label="TYPE_INT:"];
+n65 -> n66
+n67 [label="ID:num"];
+n65 -> n67
+n64 -> n65
+n61 -> n64
+n68 [label="BODY:"];
+n69 [label="TYPEID:"];
+n70 [label="TYPE_INT:"];
+n69 -> n70
+n71 [label="ID:a"];
+n69 -> n71
+n68 -> n69
+n72 [label="IDASSIGN:"];
+n73 [label="ID:a"];
+n72 -> n73
+n74 [label="TYPE_INT:0"];
+n72 -> n74
+n68 -> n72
+n61 -> n68
+n75 [label="TYPE_INT:1"];
+n61 -> n75
+n60 -> n61
+n57 -> n60
+n12 -> n57
+n0 -> n12
 }

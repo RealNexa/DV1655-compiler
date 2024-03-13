@@ -122,11 +122,14 @@ std::string MethodCallNode::genIR(BBlock** current_block, BBlock** return_block)
     std::string name = (*current_block)->genName();
     
     auto it = children.begin();
+    std::string callee_class = (*it)->genIR(current_block);
     it++;
     std::string function_name = (*it)->genIR(current_block);
     it++;
-    std::string n_arguments = std::to_string(this->children.size()); 
-    (*it)->genIR(current_block);
+    std::string n_arguments = std::to_string((*it)->children.size()+1); // +1 for the callee class as parameter
+    Parameter* in_0 = new Parameter(callee_class);
+    (*current_block)->tacInstructions.push_back(in_0);
+    (*it)->genIR(current_block); // Adds parameters to current block
 
     MethodCall* in = new MethodCall(function_name, n_arguments, name);
     (*current_block)->tacInstructions.push_back(in);
@@ -181,12 +184,12 @@ std::string NoArgumentsNode::genIR(BBlock** current_block, BBlock** return_block
 }
 
 std::string TrueNode::genIR(BBlock** current_block, BBlock** return_block){
-    return this->value;
+    return this->type;
 }
 
 std::string FalseNode::genIR(BBlock** current_block, BBlock** return_block){
 
-    return this->value;
+    return this->type;
 }
 
 std::string IdNode::genIR(BBlock** current_block, BBlock** return_block){
@@ -195,6 +198,10 @@ std::string IdNode::genIR(BBlock** current_block, BBlock** return_block){
 
 std::string IntNode::genIR(BBlock** current_block, BBlock** return_block){
     return this->value;
+}
+
+std::string ThisNode::genIR(BBlock** current_block, BBlock** return_block){
+    return BBlock::current_class_name;
 }
 
 std::string IfNode::genIR(BBlock** current_block, BBlock** return_block) {
@@ -217,6 +224,10 @@ std::string IfNode::genIR(BBlock** current_block, BBlock** return_block) {
     BBlock* jBlock = new BBlock();
     tBlock->trueExit = jBlock;
     fBlock->trueExit = jBlock;
+
+    if (return_block != nullptr){
+        jBlock->trueExit = *return_block;
+    }
 
     *current_block = jBlock;
 
@@ -251,3 +262,47 @@ std::string WhileNode::genIR(BBlock** current_block, BBlock** return_block) {
     return name;
 }
 
+std::string MethodDeclarationNode::genIR(BBlock** current_block, BBlock** return_block){
+
+    auto it = children.begin();
+    BBlock* mBlock = new BBlock();
+    BBlock::method_blocks.push_back(mBlock);
+    it++;
+    mBlock->name = BBlock::current_class_name + "_" + (*it)->value; // Get name of method
+    
+    it++;
+    it++;
+    (*it)->genIR(&mBlock); // Populate method block.
+    
+    it++;
+    std::string name =  (*it)->genIR(&mBlock); // Add return statement
+    Return* in = new Return(name);
+    mBlock->tacInstructions.push_back(in);
+    
+    return name;
+}
+
+std::string MainClassNode::genIR(BBlock** current_block, BBlock** return_block) {
+    auto it = children.begin();
+    BBlock::current_class_name = (*it)->value;
+
+    it++;
+    (*it)->genIR(current_block, return_block);
+    it++;
+    (*it)->genIR(current_block, return_block);
+
+    return "NULL";
+}
+
+std::string ClassDeclarationNode::genIR(BBlock** current_block, BBlock** return_block) {
+    auto it = children.begin();
+    BBlock::current_class_name = (*it)->value;
+
+    it++;
+    (*it)->genIR(current_block, return_block);
+    it++;
+    (*it)->genIR(current_block, return_block);
+
+    return "NULL";
+
+}

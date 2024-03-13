@@ -1,44 +1,32 @@
 digraph {
 graph [splines=ortho]
 node [shape=box]
-ENTRY [label="ENTRY\n\n_t0 := MyClass new 
-a := 0  
-b := 10  
-c := 20  
-x := 0  
-_t1 := x > 10
-iffalse _t1 goto block_8
+main [label="main\n\n_t1 := new Mult
+param _t1
+param 100
+_t0 := call calcSum 2
 "];
-ENTRY->block_1 [xlabel="true"];
-block_1 [label="block_1\n\na := 2  
-_t0 := a < 10
-iffalse _t0 goto block_3
+Sum_calcSum [label="Sum_calcSum\n\nsum := 0  
 "];
-block_1->block_2 [xlabel="true"];
-block_2 [label="block_2\n\nb := 20  
+Sum_calcSum->block_2 [xlabel="true"];
+block_2 [label="block_2\n\n_t0 := 0 < num
+iffalse _t0 goto block_4
 "];
-block_2->block_4 [xlabel="true"];
-block_4 [label="block_4\n\n"];
-block_4->block_9 [xlabel="true"];
-block_9 [label="block_9\n\nx := 100  
-x := 100  
+block_2->block_3 [xlabel="true"];
+block_3 [label="block_3\n\n_t0 := sum + num
+sum := _t0  
+_t1 := num - 1
+num := _t1  
 "];
-block_1->block_3 [xlabel="false"];
-block_3 [label="block_3\n\nc := 30  
+block_3->block_2 [xlabel="true"];
+block_2->block_4 [xlabel="false"];
+block_4 [label="block_4\n\nparam Sum
+param sum
+_t0 := call calcSum 2
+sum := _t0  
+return sum
 "];
-block_3->block_4 [xlabel="true"];
-ENTRY->block_5 [xlabel="false"];
-block_5 [label="block_5\n\n_t0 := c == 10
-iffalse _t0 goto block_7
+Mult_calcSum [label="Mult_calcSum\n\na := 0  
+return 1
 "];
-block_5->block_6 [xlabel="true"];
-block_6 [label="block_6\n\nc := 20  
-"];
-block_6->block_8 [xlabel="true"];
-block_8 [label="block_8\n\n"];
-block_8->block_9 [xlabel="true"];
-block_5->block_7 [xlabel="false"];
-block_7 [label="block_7\n\nc := 1000000000000000000000000000000  
-"];
-block_7->block_8 [xlabel="true"];
 }

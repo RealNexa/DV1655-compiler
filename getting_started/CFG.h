@@ -27,16 +27,19 @@ void generate_CFG_content(BBlock* block, std::ofstream *outStream, std::list<std
     }
 }
 
-void generate_CFG(BBlock* entry_block) {
+void generate_CFG() {
     std::ofstream outStream;
     char* filename = "CFG.dot";
     std::list<std::string> visited_blocks = {};
     outStream.open(filename);
-
     outStream << "digraph {" << std::endl;
     outStream << "graph [splines=ortho]" << std::endl;
     outStream << "node [shape=box]" << std::endl;
-    generate_CFG_content(entry_block, &outStream, visited_blocks);
+
+    for(auto it = BBlock::method_blocks.begin(); it != BBlock::method_blocks.end(); it++){
+        generate_CFG_content(*it, &outStream, visited_blocks);
+    }
+
     outStream << "}" << std::endl;
     outStream.close();
 }

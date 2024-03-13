@@ -60,6 +60,9 @@ class UnaryExpression : public Tac {
     public:
     UnaryExpression(std::string _op, std::string _y, std::string _result) :
     Tac(_op, _y, "", _result) {}
+    std::string get_string() {
+        return getResult() + " := " + getOp() + getLhs();
+    }
 };
 
 class Copy : public Tac {
@@ -81,6 +84,9 @@ class New : public Tac {
     public:
     New(std::string _type, std::string _result) :
     Tac("new", _type, "", _result) {}
+    std::string get_string() {
+        return getResult() + " := " + "new " + getLhs();
+    }
 };
 
 class NewArray : public Tac {
@@ -99,18 +105,28 @@ class Parameter : public Tac{
     public:
     Parameter(std::string _y) : 
     Tac("param", _y, "", "") {}
+    std::string get_string() {
+        return "param " + getLhs();
+    }
+
 };
 
 class MethodCall : public Tac {
     public:
     MethodCall(std::string _f, std::string _N, std::string _result) :
     Tac("call", _f, _N, _result) {}
+    std::string get_string() {
+        return getResult() + " := call " + getLhs() + " " + getRhs();
+    }
 };
 
 class Return : public Tac{
     public:
-    Return(std::string _y, std::string _result) : 
-    Tac("return", _y, "", _result) {}
+    Return(std::string _y) : 
+    Tac("return", _y, "", "") {}
+    std::string get_string() {
+        return "return " + getLhs();
+    }
 };
 
 class UnconditionalJump : public Tac {
@@ -132,6 +148,8 @@ class BBlock {
     private:
     int variable_count = 0;
     public:
+    static std::string current_class_name;
+    static std::list<BBlock*> method_blocks;
     static int block_count;
     std::string name;
     std::list<Tac*> tacInstructions;
@@ -156,5 +174,7 @@ class BBlock {
     }
 };
 inline int BBlock::block_count = 0;     // cuz C++
+inline std::list<BBlock*> BBlock::method_blocks = {};
+inline std::string BBlock::current_class_name = "";
 
 #endif

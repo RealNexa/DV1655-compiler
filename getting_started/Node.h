@@ -1,3 +1,7 @@
+/*
+	Fix semantic analysis of while statements not accepting expressions a == 3
+*/
+
 #ifndef NODE_H
 #define	NODE_H
 
@@ -157,6 +161,8 @@ class GoalNode: public BaseNode {
 
 class MainClassNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+
 	MainClassNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -224,6 +230,8 @@ class NonMainClassNode: public BaseNode {
 
 class ClassDeclarationNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+
 	ClassDeclarationNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -361,6 +369,8 @@ class MethodDeclarationsNode: public BaseNode {
 
 class MethodDeclarationNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+
 	MethodDeclarationNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1328,6 +1338,8 @@ class FalseNode: public BaseNode {
 
 class ThisNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+
 	ThisNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
