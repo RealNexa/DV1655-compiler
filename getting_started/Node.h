@@ -665,6 +665,8 @@ class WhileNode: public BaseNode {
 
 class PrintLnNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+
 	PrintLnNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;

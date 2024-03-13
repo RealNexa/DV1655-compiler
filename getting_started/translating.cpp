@@ -271,6 +271,7 @@ std::string MethodDeclarationNode::genIR(BBlock** current_block, BBlock** return
     mBlock->name = BBlock::current_class_name + "_" + (*it)->value; // Get name of method
     
     it++;
+    
     it++;
     (*it)->genIR(&mBlock); // Populate method block.
     
@@ -305,4 +306,11 @@ std::string ClassDeclarationNode::genIR(BBlock** current_block, BBlock** return_
 
     return "NULL";
 
+}
+
+std::string PrintLnNode::genIR(BBlock** current_block, BBlock** return_block) {
+    std::string name = children.front()->genIR(current_block);
+    PrintLn* in = new PrintLn(name);
+    (*current_block)->tacInstructions.push_back(in);
+    return name;
 }

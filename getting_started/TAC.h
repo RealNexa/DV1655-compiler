@@ -144,6 +144,15 @@ class ConditionalJump : public Tac{
     }
 };
 
+class PrintLn : public Tac {
+    public:
+    PrintLn(std::string _x) : 
+    Tac("println", _x, "", "") {}
+    std::string get_string(){
+        return getOp() + " " + getLhs();
+    }
+};
+
 class BBlock {
     private:
     int variable_count = 0;

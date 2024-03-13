@@ -1,15 +1,15 @@
 digraph {
-n0 [label="Identifier: CLASS_D1, Record: CLASS, Type: D1\nIdentifier: CLASS_Mult, Record: CLASS, Type: Mult\nIdentifier: CLASS_Sum, Record: CLASS, Type: Sum\n"];
+n0 [label="Identifier: CLASS_A, Record: CLASS, Type: A\nIdentifier: CLASS_Bar, Record: CLASS, Type: Bar\n"];
 n1 [label="Identifier: METHOD_main, Record: METHOD, Type: TYPE_VOID\n"];
 n2 [label="Identifier: CLASS_VAR_a, Record: VARIABLE, Type: TYPE_STRING_LIST\n"];
 n1 -> n2
 n0 -> n1
-n3 [label="Identifier: METHOD_calcSum, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: Sum\n"];
-n4 [label="Identifier: PARAMETER_num, Record: VARIABLE, Type: TYPE_INT\nIdentifier: VARIABLE_m, Record: VARIABLE, Type: Mult\nIdentifier: VARIABLE_sum, Record: VARIABLE, Type: TYPE_INT\n"];
+n3 [label="Identifier: METHOD_foo, Record: METHOD, Type: TYPE_INT\nIdentifier: METHOD_foo2, Record: METHOD, Type: TYPE_INT\nIdentifier: METHOD_foo3, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: Bar\n"];
+n4 [label="Identifier: VARIABLE_aux, Record: VARIABLE, Type: TYPE_INT\nIdentifier: VARIABLE_aux2, Record: VARIABLE, Type: TYPE_BOOLEAN\n"];
 n3 -> n4
+n5 [label="Identifier: PARAMETER_p1, Record: VARIABLE, Type: TYPE_INT\n"];
+n3 -> n5
+n6 [label="Identifier: PARAMETER_p1, Record: VARIABLE, Type: TYPE_INT\nIdentifier: PARAMETER_p2, Record: VARIABLE, Type: TYPE_INT\nIdentifier: PARAMETER_p3, Record: VARIABLE, Type: TYPE_BOOLEAN\n"];
+n3 -> n6
 n0 -> n3
-n5 [label="Identifier: METHOD_calcSum, Record: METHOD, Type: TYPE_INT\nIdentifier: THIS, Record: VARIABLE, Type: Mult\n"];
-n6 [label="Identifier: PARAMETER_num, Record: VARIABLE, Type: TYPE_INT\nIdentifier: VARIABLE_a, Record: VARIABLE, Type: TYPE_INT\n"];
-n5 -> n6
-n0 -> n5
 }
