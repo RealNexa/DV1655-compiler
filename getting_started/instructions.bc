@@ -1,37 +1,66 @@
 main
-0 invokevirtual A.A
-1 istore _t0
-2 iload _t0
-3 print
-4 stop
-A.A
-0 invokevirtual A.B
-1 istore _t0
-2 iload _t0
-3 print
-4 iconst 1
-5 istore A
-6 iload A
-7 ireturn
-A.B
-0 iconst 5
-1 istore A
-2 invokevirtual B.B
-3 istore _t0
-4 iload _t0
-5 istore B
-6 iload A
-7 iload B
-8 iadd
-9 istore _t1
-10 iload _t1
-11 ireturn
-B.A
-0 istore A
-1 iload A
-2 ireturn
-B.B
-0 iconst 1
-1 istore B
-2 iload B
-3 ireturn
+0 iconst 4
+1 iconst 2
+2 imul
+3 istore _t3
+4 iload _t3
+5 iconst 10
+6 iadd
+7 istore _t2
+8 iconst 2
+9 iconst 6
+10 imul
+11 istore _t4
+12 iload _t2
+13 iload _t4
+14 isub
+15 istore _t1
+16 iconst 4
+17 iconst 1
+18 isub
+19 istore _t7
+20 iload _t7
+21 iconst 2
+22 imul
+23 istore _t6
+24 iload _t6
+25 iconst 2
+26 idiv
+27 istore _t5
+28 iload _t1
+29 iload _t5
+30 iadd
+31 istore _t0
+32 iload _t0
+33 print
+34 iconst 1
+35 inot
+36 istore _t11
+37 iload _t11
+38 iconst 0
+39 iand
+40 istore _t10
+41 iconst 1
+42 iload _t10
+43 isub
+44 inot
+45 istore _t9
+46 iconst 1
+47 iconst 10
+48 ilt
+49 istore _t13
+50 iconst 1
+51 iconst 10
+52 ilt
+53 istore _t14
+54 iload _t13
+55 iload _t14
+56 iand
+57 istore _t12
+58 iload _t9
+59 iload _t12
+60 ior
+61 istore _t8
+62 iload _t8
+63 print
+64 stop

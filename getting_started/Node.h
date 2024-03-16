@@ -1,7 +1,3 @@
-/*
-	Fix semantic analysis of while statements not accepting expressions a == 3
-*/
-
 #ifndef NODE_H
 #define	NODE_H
 

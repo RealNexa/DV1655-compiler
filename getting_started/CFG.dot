@@ -1,25 +1,23 @@
 digraph {
 graph [splines=ortho]
 node [shape=box]
-"main" [label="main\n\n_t0 := call A.A 0
+"main" [label="main\n\n_t3 := 4 * 2
+_t2 := _t3 + 10
+_t4 := 2 * 6
+_t1 := _t2 - _t4
+_t7 := 4 - 1
+_t6 := _t7 * 2
+_t5 := _t6 / 2
+_t0 := _t1 + _t5
 println _t0
+_t11 := !1
+_t10 := _t11 && 0
+_t9 := 1 == _t10
+_t13 := 10 > 1
+_t14 := 1 < 10
+_t12 := _t13 && _t14
+_t8 := _t9 || _t12
+println _t8
 stop
-"];
-"A.A" [label="A.A\n\n_t0 := call A.B 0
-println _t0
-A := 1  
-return A
-"];
-"A.B" [label="A.B\n\nA := 5  
-_t0 := call B.B 0
-B := _t0  
-_t1 := A + B
-return _t1
-"];
-"B.A" [label="B.A\n\nargument A
-return A
-"];
-"B.B" [label="B.B\n\nB := 1  
-return B
 "];
 }
