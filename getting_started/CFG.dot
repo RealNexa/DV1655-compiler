@@ -1,51 +1,25 @@
 digraph {
 graph [splines=ortho]
 node [shape=box]
-main [label="main\n\n_t1 := new Bar
-param _t1
-_t0 := call foo 1
+"main" [label="main\n\n_t0 := call A.A 0
 println _t0
+stop
 "];
-Bar_foo [label="Bar_foo\n\naux := 1  
-aux2 := TRUE  
-param Bar
-param aux
-_t0 := call foo2 2
-aux := _t0  
-param Bar
-param aux2
-param 5
-param 2
-_t1 := call foo3 4
-aux := _t1  
-return aux
-"];
-Bar_foo2 [label="Bar_foo2\n\n_t0 := p1 < 2
-iffalse _t0 goto block_4
-"];
-Bar_foo2->block_3 [xlabel="true"];
-block_3 [label="block_3\n\nprintln 10
-"];
-block_3->block_5 [xlabel="true"];
-block_5 [label="block_5\n\nreturn 1
-"];
-Bar_foo2->block_4 [xlabel="false"];
-block_4 [label="block_4\n\nprintln 0
-"];
-block_4->block_5 [xlabel="true"];
-Bar_foo3 [label="Bar_foo3\n\niffalse p3 goto block_8
-"];
-Bar_foo3->block_7 [xlabel="true"];
-block_7 [label="block_7\n\nprintln 1
-"];
-block_7->block_9 [xlabel="true"];
-block_9 [label="block_9\n\nprintln p1
-_t0 := p2 - p1
+"A.A" [label="A.A\n\n_t0 := call A.B 0
 println _t0
-return 4
+A := 1  
+return A
 "];
-Bar_foo3->block_8 [xlabel="false"];
-block_8 [label="block_8\n\nprintln 0
+"A.B" [label="A.B\n\nA := 5  
+_t0 := call B.B 0
+B := _t0  
+_t1 := A + B
+return _t1
 "];
-block_8->block_9 [xlabel="true"];
+"B.A" [label="B.A\n\nargument A
+return A
+"];
+"B.B" [label="B.B\n\nB := 1  
+return B
+"];
 }

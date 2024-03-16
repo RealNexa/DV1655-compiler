@@ -4,7 +4,20 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <fstream>
 
+struct ProgramData {
+    std::map<std::string, int> method_index;
+    std::map<std::string, int> variable_index;
+    std::map<std::string, int> goto_index;
+    int current_row;
+
+    // ProgramData() {
+    //     method_index = {};
+    //     variable_index = {};
+    //     goto_index = {};
+    // }  
+};
 
 class Tac {
 
@@ -48,12 +61,68 @@ class Tac {
         return result + " := " + lhs + " " + op + " " + rhs;
     }
 
+    virtual void genByteCode(std::ofstream* outStream, ProgramData* program_data){
+        return;
+    }
+
 };
 
 class Expression : public Tac{
     public:
     Expression(std::string _op, std::string _y, std::string _z, std::string _result) : 
     Tac(_op, _y, _z, _result) {}
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        
+        if (std::isdigit(getLhs().c_str()[0]) != 0) {
+            *outStream << "iconst " + (getOp()==">" ? getRhs() : getLhs())<< std::endl;
+        }
+        else {
+            *outStream << "iload " + (getOp()==">" ? getRhs() : getLhs())<< std::endl;
+        }        
+
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if (std::isdigit(getRhs().c_str()[0]) != 0) {
+            *outStream << "iconst " + (getOp()==">" ? getLhs() : getRhs())<< std::endl;
+        }
+        else {
+            *outStream << "iload " + (getOp()==">" ? getLhs() : getRhs())<< std::endl;
+        }
+        
+        // + - * / && || < > == 
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(getOp() == "+") {
+
+            *outStream << "iadd" << std::endl;
+        }
+        else if(getOp() == "-"){
+            *outStream << "isub" << std::endl;
+        }
+        else if(getOp() == "*"){
+            *outStream << "imul" << std::endl;
+        }
+        else if(getOp() == "/"){
+            *outStream << "idiv" << std::endl;
+        }
+        else if(getOp() == "&&"){
+            *outStream << "iand" << std::endl;
+        }
+        else if(getOp() == "||"){
+            *outStream << "ior" << std::endl;
+        }
+        else if(getOp() == "<" || getOp() == ">"){
+            *outStream << "ilt" << std::endl;
+        }
+        else if(getOp() == "=="){
+            *outStream << "isub" << std::endl;
+            *outStream << std::to_string(program_data->current_row++) + " ";
+            *outStream << "inot" << std::endl;
+        }
+
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        
+        *outStream << "istore " << getResult() << std::endl;
+    }
 };
 
 class UnaryExpression : public Tac {
@@ -63,12 +132,39 @@ class UnaryExpression : public Tac {
     std::string get_string() {
         return getResult() + " := " + getOp() + getLhs();
     }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        
+        if (std::isdigit(getLhs().c_str()[0]) != 0) {
+            *outStream << "iconst " + getLhs() << std::endl;
+        }
+        else{
+            *outStream << "iload " + getLhs() << std::endl;
+        }
+
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "inot" << std::endl;
+
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "istore " << getResult() << std::endl;
+    }
 };
 
 class Copy : public Tac {
     public:
     Copy(std::string _y, std::string _result) :
     Tac("", _y, "", _result) {}
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(std::isdigit(getLhs().c_str()[0]) != 0){
+            *outStream << "iconst " << getLhs() <<std::endl;
+        }
+        else {
+            *outStream << "iload " << getLhs() <<std::endl;
+        }
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "istore " << getResult() << std::endl;
+    }
 };
 
 class ArrayAccess : public Tac {
@@ -78,6 +174,7 @@ class ArrayAccess : public Tac {
     std::string get_string() {
         return getResult() + " := " + getLhs() + "[" + getRhs() + "]";
     }
+
 };
 
 class New : public Tac {
@@ -108,7 +205,15 @@ class Parameter : public Tac{
     std::string get_string() {
         return "param " + getLhs();
     }
-
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(std::isdigit(getLhs().c_str()[0]) != 0){
+            *outStream << "iconst " << getLhs() <<std::endl;
+        }
+        else {
+            *outStream << "iload " << getLhs() <<std::endl;
+        }
+    }
 };
 
 class MethodCall : public Tac {
@@ -117,6 +222,12 @@ class MethodCall : public Tac {
     Tac("call", _f, _N, _result) {}
     std::string get_string() {
         return getResult() + " := call " + getLhs() + " " + getRhs();
+    }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "invokevirtual " << getLhs() <<std::endl;
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "istore " << getResult() <<std::endl;
     }
 };
 
@@ -127,12 +238,27 @@ class Return : public Tac{
     std::string get_string() {
         return "return " + getLhs();
     }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(std::isdigit(getLhs().c_str()[0]) != 0){
+            *outStream << "iconst " << getLhs() <<std::endl;
+        }
+        else {
+            *outStream << "iload " << getLhs() <<std::endl;
+        }
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "ireturn" << std::endl;
+    }
 };
 
 class UnconditionalJump : public Tac {
     public:
     UnconditionalJump(std::string _L) :
     Tac("goto", "", "", _L) {}
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "goto " << getResult() <<std::endl;
+    }
 };
 
 class ConditionalJump : public Tac{
@@ -140,7 +266,18 @@ class ConditionalJump : public Tac{
     ConditionalJump(std::string _L, std::string _op, std::string _x) : 
     Tac(_op, _x, "", _L) {}
     std::string get_string(){
-        return getOp() + " "+ getLhs() + " goto " +  getResult();
+        return getOp() + " " + getLhs() + " goto " +  getResult();
+    }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(std::isdigit(getLhs().c_str()[0]) != 0){
+            *outStream << "iconst " << getLhs() <<std::endl;
+        }
+        else {
+            *outStream << "iload " << getLhs() <<std::endl;
+        }
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << getOp() << " goto " << getResult() << std::endl;
     }
 };
 
@@ -150,6 +287,43 @@ class PrintLn : public Tac {
     Tac("println", _x, "", "") {}
     std::string get_string(){
         return getOp() + " " + getLhs();
+    }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        if(std::isdigit(getLhs().c_str()[0]) != 0){
+            *outStream << "iconst " << getLhs() <<std::endl;
+        }
+        else {
+            *outStream << "iload " << getLhs() <<std::endl;
+        }
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "print" << std::endl;
+    }
+};
+
+class Argument : public Tac {
+    public:
+    Argument(std::string _x):
+    Tac("argument", _x, "", "") {}
+    std::string get_string() {
+        return getOp() + " " + getLhs();
+    }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << "istore " << getLhs() <<std::endl;
+    }
+};
+
+class Stop : public Tac {
+    public:
+    Stop():
+    Tac("stop", "", "", "") {}
+    std::string get_string() {
+        return getOp();
+    }
+    void genByteCode(std::ofstream *outStream, ProgramData* program_data){
+        *outStream << std::to_string(program_data->current_row++) + " ";
+        *outStream << getOp() << std::endl;
     }
 };
 

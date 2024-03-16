@@ -27,9 +27,9 @@ class BaseNode {
 	virtual std::string evaluate(SymbolTable*) {
 		return "NULL";
 	}
-	virtual std::string genIR(BBlock** currentBlock, BBlock** return_block = nullptr) {
+	virtual std::string genIR(BBlock** currentBlock, SymbolTable* symbol_table, BBlock** return_block = nullptr) {
 		for(auto it = this->children.begin(); it != this->children.end(); it++) {
-			(*it)->genIR(currentBlock, return_block);
+			(*it)->genIR(currentBlock, symbol_table, return_block);
 		}
 		return "NULL";
 	};
@@ -144,7 +144,7 @@ class GoalNode: public BaseNode {
 		this->lineno = l;
 	};
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		for(auto it = children.begin(); it != children.end(); it++) {
@@ -161,7 +161,7 @@ class GoalNode: public BaseNode {
 
 class MainClassNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	MainClassNode(string t, string v, int l) {
 		this->type = t;
@@ -230,7 +230,7 @@ class NonMainClassNode: public BaseNode {
 
 class ClassDeclarationNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	ClassDeclarationNode(string t, string v, int l) {
 		this->type = t;
@@ -369,7 +369,7 @@ class MethodDeclarationsNode: public BaseNode {
 
 class MethodDeclarationNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	MethodDeclarationNode(string t, string v, int l) {
 		this->type = t;
@@ -429,6 +429,8 @@ class MethodDeclarationNode: public BaseNode {
 
 class ParametersNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
+
 	ParametersNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -448,6 +450,8 @@ class ParametersNode: public BaseNode {
 
 class ParameterNode: public BaseNode {
 	public:
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
+
 	ParameterNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -608,7 +612,7 @@ class TypeCustomNode: public BaseNode {
 
 class IfNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	IfNode(string t, string v, int l) {
 		this->type = t;
@@ -637,7 +641,7 @@ class IfNode: public BaseNode {
 
 class WhileNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	WhileNode(string t, string v, int l) {
 		this->type = t;
@@ -665,7 +669,7 @@ class WhileNode: public BaseNode {
 
 class PrintLnNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	PrintLnNode(string t, string v, int l) {
 		this->type = t;
@@ -685,7 +689,7 @@ class PrintLnNode: public BaseNode {
 
 class IdAssignNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	IdAssignNode(string t, string v, int l) {
 		this->type = t;
@@ -823,7 +827,7 @@ class AddExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -858,7 +862,7 @@ class SubExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -891,7 +895,7 @@ class MultExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -925,7 +929,7 @@ class DivExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -960,7 +964,7 @@ class LogicAndExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -995,7 +999,7 @@ class LogicOrExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1030,7 +1034,7 @@ class LtExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1065,7 +1069,7 @@ class GtExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1100,7 +1104,7 @@ class EqualExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1136,7 +1140,7 @@ class LBRBExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1179,7 +1183,7 @@ class DotLengthExpressionNode: public BaseNode {
 		this->lineno = l;
 	}
 	
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1216,7 +1220,7 @@ class MethodCallNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1298,7 +1302,7 @@ class TrueNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1322,7 +1326,7 @@ class FalseNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;
@@ -1340,7 +1344,7 @@ class FalseNode: public BaseNode {
 
 class ThisNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	ThisNode(string t, string v, int l) {
 		this->type = t;
@@ -1372,7 +1376,7 @@ class ThisNode: public BaseNode {
 
 class NewListNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	NewListNode(string t, string v, int l) {
 		this->type = t;
@@ -1405,7 +1409,7 @@ class NewListNode: public BaseNode {
 
 class NewObjectNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	NewObjectNode(string t, string v, int l) {
 		this->type = t;
@@ -1443,7 +1447,7 @@ class NewObjectNode: public BaseNode {
 
 class NotNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	NotNode(string t, string v, int l) {
 		this->type = t;
@@ -1475,7 +1479,7 @@ class NotNode: public BaseNode {
 
 class NoArgumentsNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 	NoArgumentsNode(string t, string v, int l) {
 		this->type = t;
 		this->value = v;
@@ -1493,7 +1497,7 @@ class NoArgumentsNode: public BaseNode {
 
 class ArgumentsNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	ArgumentsNode(string t, string v, int l) {
 		this->type = t;
@@ -1512,7 +1516,7 @@ class ArgumentsNode: public BaseNode {
 
 class IntNode: public BaseNode {
 	public:
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	IntNode(string t, string v, int l) {
 		this->type = t;
@@ -1542,7 +1546,7 @@ class IdNode: public BaseNode {
 		this->lineno = l;
 	}
 
-	std::string genIR(BBlock** current_block, BBlock** return_block = nullptr);
+	std::string genIR(BBlock** current_block, SymbolTable* symbol_table, BBlock** return_block = nullptr);
 
 	void execute(SymbolTable* symbol_table) {
 		return;

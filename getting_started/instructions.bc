@@ -1,0 +1,37 @@
+main
+0 invokevirtual A.A
+1 istore _t0
+2 iload _t0
+3 print
+4 stop
+A.A
+0 invokevirtual A.B
+1 istore _t0
+2 iload _t0
+3 print
+4 iconst 1
+5 istore A
+6 iload A
+7 ireturn
+A.B
+0 iconst 5
+1 istore A
+2 invokevirtual B.B
+3 istore _t0
+4 iload _t0
+5 istore B
+6 iload A
+7 iload B
+8 iadd
+9 istore _t1
+10 iload _t1
+11 ireturn
+B.A
+0 istore A
+1 iload A
+2 ireturn
+B.B
+0 iconst 1
+1 istore B
+2 iload B
+3 ireturn

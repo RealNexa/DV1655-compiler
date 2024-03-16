@@ -13,16 +13,16 @@ void generate_CFG_content(BBlock* block, std::ofstream *outStream, std::list<std
     }
     visited_nodes.push_back(block->name);
     
-    *outStream << block->name << " [label=\"" << block->name << "\\n\\n" << block->get_print_string() << "\"];" << std::endl;
+    *outStream << "\"" << block->name << "\"" << " [label=\"" << block->name << "\\n\\n" << block->get_print_string() << "\"];" << std::endl;
 
 
     if (block->trueExit != nullptr) {
-        *outStream << block->name << "->" << block->trueExit->name << " [xlabel=\"true""\"];" << std::endl;
+        *outStream << "\"" << block->name << "\"" << "->" << "\"" << block->trueExit->name << "\"" << " [xlabel=\"true""\"];" << std::endl;
         generate_CFG_content(block->trueExit, outStream, visited_nodes);
     }
 
     if (block->falseExit != nullptr) {
-        *outStream << block->name << "->" << block->falseExit->name << " [xlabel=\"false""\"];" << std::endl;
+        *outStream << "\"" << block->name << "\"" << "->" << "\"" << block->falseExit->name << "\"" << " [xlabel=\"false""\"];" << std::endl;
         generate_CFG_content(block->falseExit, outStream, visited_nodes);
     }
 }

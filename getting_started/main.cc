@@ -3,6 +3,7 @@
 #include "SymbolTable.h"
 #include "TAC.h"
 #include "CFG.h"
+#include "genCode.h"
 
 extern BaseNode *root;
 extern FILE *yyin;
@@ -86,16 +87,19 @@ int main(int argc, char **argv)
 			
 			root->semanticAnalysis(symbol_table);
 
-
+			symbol_table->reset_tree();
+			
 			// IR code generation
 			BBlock* entry = new BBlock();
 			BBlock* entry_copy = entry;
 			BBlock::method_blocks.push_back(entry_copy);
 			entry->name = "main";
 			
-			root->genIR(&entry);
+			root->genIR(&entry, symbol_table);
 			
 			generate_CFG();
+
+			traverse_entry_blocks();
 		}
 	}
 
